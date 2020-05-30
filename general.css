@@ -1,0 +1,493 @@
+/*@import url('https://fonts.googleapis.com/css?family=Raleway:400,500&display=swap');*/
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,500,600,700&display=swap');
+* {
+    font-family: 'Comfortaa', sans-serif;
+    font-style: medium;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+    --bd-color: hsla(0,100%,67%,100%);
+}
+body {
+    height: 679px;
+    width: 512px;
+    color: #f55;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+.wrapper {
+    height: 100%;
+    margin: 0px;
+    padding: 0px; 
+    width: 100%;
+    background: #222;
+    overflow: hidden;
+}
+header {
+    background: #2220;
+    position: relative;
+    height: 100px;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    border-bottom: 2px solid #f55; 
+    box-shadow: -0.75px 5px 5px 0px #000;
+    z-index: 100;
+}
+header h1 {
+    margin: 0px;
+    padding: 30px;
+    padding-left: 109px;
+    text-shadow: 0px 5px 2px #000;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+footer {
+    background: #2220;
+    position: relative;
+    height: 100px;
+    padding: 0px;
+    overflow: hidden;
+    margin: 0px;
+    border-top: 2px solid #f55; 
+    box-shadow: -0.75px -5px 5px 0px #000;
+    z-index: 100;
+}
+#sq1, #sq2, #sq3 {
+    height: 500px;
+    width: 500px;
+    margin-left: 165px;
+    margin-top: 50px;
+    transform: rotate(70deg);
+    position: absolute;
+    border: 2px solid  var(--bd-color);
+    z-index: 102;
+    box-shadow: -5px -0.75px 5px 0px #000;
+    transition: .25s ease-in-out;
+}
+#sq2 {
+    margin-top: 90px;
+    z-index: 103;
+}
+#sq3 {
+    margin-top: 120px;
+    z-index: 104;
+}
+#sq1:hover {
+    transform: rotate(80deg);
+    transition: .25s ease-in-out;
+}
+#sq2:hover {
+    transform: rotate(65deg);
+    transition: .25s ease-in-out;
+}
+#sq3:hover {
+    transform: rotate(75deg);
+    transition: .25s ease-in-out;
+}
+#sqh {
+    height: 500px;
+    width: 500px;
+    position: absolute;
+    z-index: 102;
+    margin-left: -400px;
+    border: 2px solid  var(--bd-color);
+    margin-top: -400px;
+    transform: rotate(-115deg);
+    box-shadow: -5px -0.75px 5px 0px #000;
+    transition: .25s ease-in-out;
+}
+#sqh:hover {
+    transform: rotate(-120deg);
+}
+.game-body {
+    margin: 0px;
+    position: relative;
+    padding: 0px;
+    width: 100%;
+    height: 479px;
+    background: #2220;
+    z-index: 0;
+}
+.sidebar1, .sidebar2 {
+    background: #2220;
+    position: relative;
+    height: 100%;
+    width: 50%;
+    overflow: hidden;
+    padding: 0px;
+}
+.sidebar1 {
+    border-right: 1px solid #f55;
+    box-shadow: inset -2.5px -0.75px 5px 0px #000;
+}
+.sidebar2 {
+    border-left: 1px solid #f55;
+    box-shadow: inset 2.5px -0.75px 5px 0px #000;
+    margin-top: -479px;
+    margin-left: 257px;
+}
+button {
+    position: relative;
+    padding: 0px;
+    width: 100%;
+    background: #222;
+    color: #f55;
+    text-shadow: 0px 5px 2px #000;
+    font-size: 20pt;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    margin: 0px;
+    border-bottom: 2px solid #f55;
+    transition: background .25s ease-in-out,
+                transform .75s ease-in-out;
+}
+#close {
+    box-shadow: -0.75px 5px 5px 0px #000;
+}
+button:hover {
+    background: #f554/*#643F3F*/;
+    transform: rotateY(180deg);
+    transition: background .25s ease-in-out,
+                transform 1s ease-in-out;
+}
+button:focus {
+    outline: none;
+}
+button::-moz-focus-inner {
+    border: 0;
+}
+button:active {
+    background: #f55;
+}
+h2 {
+    padding-right: 0px;
+    margin-left: 95px;
+    color: #f55;
+    min-width: 0px;
+}
+#player-info {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+#player-info h2 {
+    margin-left: 45px;
+    min-width: 0px;
+    max-width: 200px;
+    min-height: 0px;
+    word-wrap: break-word;
+    cursor: url('http://www.rw-designer.com/cursor-download.php?id=82234http://www.rw-designer.com/cursor-download.php?id=82234'), help;
+}
+p {
+    padding: 4px;
+    margin: 0px;
+    color: #f55;
+    font-size: 14pt;
+}
+.fog {
+    background: #0000;
+    height: 679px;
+    width: 512px;
+    position: absolute;
+    z-index: 999;
+}
+.game-alert {
+    margin-left: 256px;
+    margin-top: 338.5px;
+    background: #222;
+    position: absolute;
+    z-index: 1000;
+    overflow: hidden;
+}
+.game-alert #ok-button {
+    height: 50px;
+    width: 100px;
+    margin-left: 150px;
+    margin-top: 10px;
+    border: 2px solid #f55;
+    border-radius: 40px;
+    margin-bottom: 10px;
+}
+.game-alert textarea {
+    resize: none;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    font-size: 15pt;
+    height: 16pt;
+    width: 360px;
+    overflow: hidden;
+    border: 0px;
+    border-bottom: 2px solid #f55;
+    border-radius: 0px;
+    background: #222;
+    color: #f55;
+    text-align: center;
+}
+textarea::placeholder {
+    text-align: center;
+}
+.game-alert #ok-button:hover {
+    transform: none;
+    cursor: pointer;
+}
+.game-alert #closeGA {
+    background: #2220;
+    position: absolute;
+    margin: 0px;
+    margin-left: 370px;
+    width: 35px;
+    height: 35px;
+    font-size: 20pt;
+    padding: 0px;
+    padding-right: 5px;
+    border: 2px solid #f55;
+    border-right: none;
+    border-top: none;
+    text-shadow: none;
+    font-weight: bold;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 15px;
+    transition: .25s ease-in-out;
+}
+.game-alert #closeGA:hover {
+    transform: none;
+    background: #f554;
+    transition: .25s ease-in-out;
+}
+.game-alert #closeGA:active {
+    background: #f55;
+    transition: .25s ease-in-out;
+}
+@keyframes showFog {
+    0% {
+        background: #0000;
+    }
+    100% {
+        background: #0007;
+    }
+}
+.game-alert-body {
+    min-width: 360px;
+    max-width: 360px;
+    max-height: 110px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+}
+.settings-info {
+    height: 441px;
+    width: 216px;
+    padding: 20px;
+    overflow: scroll;
+}
+.settings-info::-webkit-scrollbar {
+    width: 0;
+}
+
+input[type=range] {
+    width: 216px;
+    height: 15px;
+    border: none;
+    outline: none;
+    background: none;
+    border: 2px solid #f55;
+    border-radius: 10px;
+    transition: .1s;
+    -webkit-appearance: none;
+}
+input[type=range]::-moz-range-thumb {
+    background: #2220;
+    border-radius: 50px;
+    width: 30px;
+    height: 15px;
+    background: var(--bd-color);
+    border: none;
+    cursor: col-resize;
+}
+input[type=range]::-moz-range-track {
+    opacity: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 2px solid var(--bd-color);
+    background: var(--bd-color);
+    border-radius: 10px;
+    width: 30px;
+    height: 15px;
+    cursor: col-resize;
+}
+input[type=range]::-ms-thumb{
+    background: #2220;
+    border-radius: 10px;
+    width: 30px;
+    height: 15px;
+    background: var(--bd-color);
+    border: 2px solid var(--bd-color);
+    -webkit-appearance: none;
+    cursor: col-resize;
+}
+input[type=range]:focus {
+    outline: 0 !important;
+}
+.checkbox {
+    border: none;
+    box-shadow: none;
+    height: 15px;
+    width: 15px;
+    position: relative;
+    margin-top: -18pt;
+    margin-left: 121px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    background: #f550;
+    border: 2px solid #f55;
+    outline: none;
+}
+.checkbox:hover {
+    cursor: pointer;
+}
+h3 {
+    padding: 0px;
+    margin: 10px;
+    position: absolute;
+    outline: none;
+}
+#font {
+    margin-top: 35px;
+    margin-bottom: 40px;
+    margin-left: 13px;
+    transition: .25s;
+}
+a:hover {
+    text-decoration: none;
+}
+a:active {
+    outline: none;
+}
+a::-moz-focus-inner {
+    border: 0;
+}
+#save, #load {
+    opacity: 0;
+}
+#version {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    margin-left: 13px;
+}
+strong {
+    cursor: url('http://www.rw-designer.com/cursor-download.php?id=82234http://www.rw-designer.com/cursor-download.php?id=82234'), help;
+}
+.shop-button {
+    background: #2220;
+    text-shadow: none;
+    font-size: 14pt;
+    border: 2px solid #f55;
+    border-radius: 20px;
+    width: 200px;
+    font-weight: bold;
+    margin-left: 28px;
+    margin-top: 5px;
+    transform: none;
+}
+.shop-button:hover {
+    cursor: pointer;
+    background: #f554;
+    transform: none;
+}
+.shop-button:active {
+    background: #f55;
+}
+.shop-button-disabled {
+    background: #2220;
+    text-shadow: none;
+    font-size: 14pt;
+    border: 2px solid #f55;
+    border-radius: 20px;
+    width: 200px;
+    font-weight: bold;
+    margin-left: 28px;
+    margin-top: 5px;
+    transform: none;
+    opacity: 0.5;
+    transition: none;
+    cursor: not-allowed !important;
+}
+.shop-button-disabled:hover {
+    background: #2220 !important;
+    transform: none !important;
+    cursor: not-allowed !important;
+}
+.shop-body {
+    width: 100%;
+    height: 100%;
+    padding: 0px 10px 0px 10px;
+    overflow: scroll;
+}
+#leaves {
+    cursor: default;
+}
+#make-tea, #sell-tea {
+    font-size: 17pt;
+    height: 17pt;
+    background: #2220;
+    padding: 10px 0px 5px 0px;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+    position: absolute;
+}
+#sell-tea {
+    margin: 0px 0px 0px 129px;
+}
+#where-line {
+    background: #f55;
+    height: 2px;
+    width: 50%;
+    position: absolute;
+    margin: calc(17pt + 10px + 2px) 0px 0px 0px;
+    transition: ease;
+}
+.make-tea-body, .sell-tea-body {
+    width: 100%;
+    height: 441px;
+    position: absolute;
+    padding: 10px 0px 0px 5px;
+    margin: calc(17pt + 10px + 5px) 0px 0px 0px;
+    background: #2220;
+    overflow: scroll;
+}
+.make-tea-block {
+    width: 100%;
+    height: 441px;
+    position: absolute;
+    z-index: 800;
+    opacity: 0;
+    overflow: scroll;
+    background: #0005;
+}
+ul {
+    font-size: 14pt;
+    padding: 0px 4px 4px 4px;
+    margin: 0px;
+}
+li {
+    margin: 0px 0px 0px 20px;
+}
