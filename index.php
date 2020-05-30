@@ -1,4 +1,4 @@
-print "
+print '
 <!-- Use a PC for more convenience -->
 <!--
     HTML: 45 strings without comments
@@ -52,4 +52,4 @@ print "
     </div>
 </body>
 </html>
-"
+'
