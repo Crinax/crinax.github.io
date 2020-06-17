@@ -166,49 +166,49 @@ tutorial = () => {
             break;
         case 2:
             post();
-            setTimeout(function() {
+            setTimeout(() => {
                 tutorialNum++;
                 showGameAlert('Tutorial','You can buy tea leaves in the "Shop" section<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
             }, 250)
             break;
         case 3:
             post();
-            setTimeout(function() {
+            setTimeout(() => {
                 tutorialNum++;
                 showGameAlert('Tutorial','You can see your statistics and change nick in the "Player" section<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
             }, 250)
             break;
         case 4:
             post();
-            setTimeout(function() {
+            setTimeout(() => {
                 tutorialNum++;
                 showGameAlert('Tutorial','You can customize the game for yourself in the "Settings" section<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
             }, 250)
             break;
         case 5:
             post();
-            setTimeout(function() {
+            setTimeout(() => {
                 tutorialNum++;
                 showGameAlert('Tutorial','You need 3 tea leaves to create 1 cup of tea<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
             }, 250)
             break;
         case 6:
             post();
-            setTimeout(function() {
+            setTimeout(() => {
                 tutorialNum++;
                 showGameAlert('Tutorial','Report me about all the bugs<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
             }, 250)
             break;
         case 7:
             post();
-            setTimeout(function() {
+            setTimeout(() => {
                 tutorialNum++;
                 showGameAlert('Tutorial','Good luck and have fun! ( ͡° ͜ʖ ͡°)<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
             }, 250)
             break;
         case 8:
             post();
-            setTimeout(function() {
+            setTimeout(() => {
                 tutorialNum++;
                 showGameAlert('Tutorial','Use a PC for more convenience ( ͡° ͜ʖ ͡°)',['alert','ddchk()','ddchk()','ddchk()'],'150px');
             }, 250)
@@ -216,25 +216,25 @@ tutorial = () => {
     }
 }
 //end 
-function active() {
+active = () => {
     $('#sq3').click(inc())
 }
-function deactive() {
+deactive = () => {
     $('#sq3').off('click');
 }
 ddchk = () => {
     post();
     for (let g = 0; g < typesTea.length; g++) {
-        timerChange[`${typesTea[g]}Price`] = setTimeout(function yt() {
+        timerChange[`${typesTea[g]}Price`] = setTimeout(yt = () => {
             ChangeTeaPrise(typesTea[g]);
             timerChange[`${typesTea[g]}Price`] = setTimeout(yt, randomInteger(50000, 120000));
         }, randomInteger(50000, 120000));
-        timerGetter[`${typesTea[g]}Get`] = setTimeout(function gt() {
+        timerGetter[`${typesTea[g]}Get`] = setTimeout(gt = () => {
             getTea(typesTea[g]);
             timerGetter[`${typesTea[g]}Get`] = setTimeout(gt, randomInteger(10000, 20000));
         }, randomInteger(10000, 20000))
     }
-    timer.checkTimer = setTimeout(function tt() {
+    timer.checkTimer = setTimeout(tt = () => {
         if (!checkPlayer()) {
             showGameAlert('You were banned!','We apologize, but you were banned for using cheats. Please never use these accessories. You can write to me and I will give you codes, in fact, after all, are they not cheats?🌚',['alert','','',''],'95px')
             localStorage.setItem(encrypt('BAN','Player'), encrypt(Player.nickname))
@@ -244,7 +244,7 @@ ddchk = () => {
         }
     }, 1)
 }
-function inc() {
+inc = () => {
     root++
     if (root>=10) {
         root = 0
@@ -253,7 +253,10 @@ function inc() {
 }
 changeLog = () => {
     showGameAlert('Change log', `
-        - Fixed balance. Now the game can be played :D
+        <u><b>v1.1:</b></u><br/>
+        - Fixed balance. Now the game can be played :D<br/>
+        <u><b>v1.2:</b></u><br/>
+        - In the shop you can enter custom value of tea leaves. Click to the value of tea leaves to change it
         `, ['alert', 'ddchk()', 'ddchk()', 'ddchk()'], '125px')
 }
 var timerChange = {
@@ -279,19 +282,19 @@ var timer = {
     checkTimer: 0
 }
 var typesTea = ['green','black','yellow','red','white','oolong','puer'];
-$(document).ready(function() {
+$(document).ready(() => {
     
     
     Graphics.apply();
 })
-function randomInteger(min, max) {
+randomInteger = (min, max) => {
     var rand = min + Math.random() * (max + 1 - min);
     rand = Math.floor(rand);
     return rand;
 }
-function shows(elem,dir) {
+shows = (elem,dir) => {
     var i = 0;
-    var timerId = setInterval( function() {
+    var timerId = setInterval(() => {
         $(elem).css({
             "background": `-moz-linear-gradient(${dir}, ${Graphics.unvisibility} ${i}%, ${Graphics.secondColor} ${i}%)`
         })
@@ -311,9 +314,9 @@ function shows(elem,dir) {
         i++;
     }, 10)
 }
-function showEffect(elem,dir) {
+showEffect = (elem,dir) => {
     var i = 0;
-    var timerId = setInterval( function() {
+    var timerId = setInterval(() => {
         $(elem).css({
             "background": `-moz-linear-gradient(${dir}, ${Graphics.secondColor} ${i}%, ${Graphics.unvisibility} ${i}%)`
         })
@@ -333,21 +336,21 @@ function showEffect(elem,dir) {
         i++;
     }, 10)
 }
-function hideBut() {
+hideBut = () => {
 if ($('#save').length != 0) {
         $('#save, #load').animate({
             "opacity": "0"
         }, 500)
-        setTimeout(function() {
+        setTimeout(() => {
             $('#save').remove();
             $('#load').remove();
         }, 500)
         
     }
 }
-function playerInfo() {
+playerInfo = () => {
     showEffect('.sidebar1','top right');
-    setTimeout(function() {
+    setTimeout(() => {
         hideBut();
         $('.sidebar1').empty();
         $('.sidebar1').append('<div id="player-info" style="overflow:scroll;"></div>');
@@ -364,7 +367,7 @@ function playerInfo() {
         Graphics.apply();
     }, 1500)
 }
-function showGameAlert(header,text,type,marginLeft) {
+showGameAlert = (header,text,type,marginLeft) => {
     if (type[3] != undefined) {
         $('body').prepend(`<div class="fog" onclick="${type[3]}"></div>`);
     }
@@ -382,7 +385,7 @@ function showGameAlert(header,text,type,marginLeft) {
         "border": `2px solid ${Graphics.secondColor}`,
         "border-radius": "20px"
     })
-    setTimeout(function() {
+    setTimeout(() => {
         $('.fog').css({
             "background": "#0007"
         })
@@ -411,12 +414,20 @@ function showGameAlert(header,text,type,marginLeft) {
         }
     }
     if (type[0].toLowerCase() == "prompt") {
-        $('.game-alert').append('<textarea placeholder="Some input" class="promptValue"></textarea>')
-        $('.game-alert').append('<button onclick="post(1)" id="ok-button">Ok</button>')
+        $('.game-alert').append('<textarea placeholder="Some input" class="promptValue"></textarea>');
+        if (type[1] == undefined) {
+            $('.game-alert').append('<button onclick="post(1)" id="ok-button">Ok</button>');
+        }
+        else if (isNaN(Number(type[1]))) {
+            $('.game-alert').append(`<button onclick="${type[1]}" id="ok-button">Ok</button>`);
+        }
+        else {
+            $('.game-alert').append(`<button onclick="post(${type[1]}, '${type[3]}')" id="ok-button">Ok</button>`);
+        }
     }
     Graphics.apply();
 }
-Array.prototype.clean = function(deleteValue) {
+Array.prototype.clean = (deleteValue) => {
   for (var i = 0; i < this.length; i++) {
     if (this[i] == deleteValue) {         
       this.splice(i, 1);
@@ -425,19 +436,24 @@ Array.prototype.clean = function(deleteValue) {
   }
   return this;
 }
-function post(takeData = 0) {
+post = (takeData = 0, tp = undefined) => {
     var res = hideGameAlert(takeData)
     if ((res != null) && (res.split(' ').clean('').length != 0)) {
-        Player.nickname = res;
+        switch (takeData) {
+            case 1:
+                Player.nickname = res;
+            case 2:
+                setTea(tp, res);
+        }
     }
 }
-function changeName() {
+changeName = () => {
     showGameAlert('Change Name','Enter new nick or press the cross to cancel',['prompt'],'120px');
 }
-function Change() {
+Change = () => {
     $('#player-info>h2').text(`${Player.nickname}`)
 }
-function hideGameAlert(takeData = 0) {
+hideGameAlert = (takeData = 0) => {
     var input;
     if (takeData != 0) {
         input = $('.promptValue').val();
@@ -454,7 +470,7 @@ function hideGameAlert(takeData = 0) {
         "animation-duration": "0.25s",
         "animation-direction": "reverse"
     })
-    setTimeout(function() {
+    setTimeout(() => {
         $('.fog').css({
             "background": "#0000"
         })
@@ -467,9 +483,9 @@ function hideGameAlert(takeData = 0) {
         return input;
     }
 }
-function settings() {
+settings = () => {
     showEffect('.sidebar1','top left');
-    setTimeout(function() {
+    setTimeout(() => {
         $('.sidebar1').empty();
         $('.sidebar1').prepend('<div class="settings-info"></div>')
         $('.settings-info').prepend('<h2 style="margin-top:0px; margin-left:50px;">Settings</h2>')
@@ -512,7 +528,7 @@ function settings() {
         Graphics.applyToSliders();
     },1000);
 }
-function check() {
+check = () => {
     if (Graphics.lowQuality) {
         $('.checkbox').animate({
             "border-width": "2px",
@@ -534,7 +550,7 @@ function check() {
         Graphics.applyToSliders()
     }
 }
-function chn() {
+chn = () => {
     //secColor
     var hue = $('#color').val();
     var satur = $('#saturation').val();
@@ -560,9 +576,25 @@ function chn() {
     Graphics.apply();
     Graphics.applyToSliders();
 }
-function shop() {
+enterTea = (item) => {
+    showGameAlert('Enter tea leaves', 'Enter tea leaves from keyboard', ['prompt', '2', 'post()', `${item}`], '95px');
+}
+setTea = (item, quan) => {
+    if (quan < Shop.tea[`${item}`]) {
+        $(`#${item}Tea`).attr('value', quan);
+        $(`#${item}Tea`).val(quan);
+        $(`#price-${item}-tea`).text(`${item.charAt(0).toUpperCase() + item.slice(1)}: ${$(`#${item}Tea`).val()}`);
+        $(`#by-${item}-tea-button`).text(`Buy for ${Shop.price[`${item}`]*$(`#${item}Tea`).val()}`);
+    }
+    else {
+        $(`#${item}Tea`).attr('value', Shop.tea[`${item}`]);
+        $(`#price-${item}-tea`).text(`${item.charAt(0).toUpperCase() + item.slice(1)}: ${$(`#${item}Tea`).val()}`);
+        $(`#by-${item}-tea-button`).text(`Buy for ${Shop.price[`${item}`]*$(`#${item}Tea`).val()}`);
+    }
+}
+shop = () => {
     showEffect('.sidebar1', 'top')
-    setTimeout(function() {
+    setTimeout(() => {
         $('.sidebar1').empty()
         $('.sidebar1').append('<div class="shop-body"></div>')
         $('.shop-body').append('<h2>Shop</h2>')
@@ -574,7 +606,7 @@ function shop() {
             }
             else {
                 $('.shop-body').append(`<input type="range" oninput="changePrice('${key}')" id="${key}Tea" min="0" max="${Shop.tea[key]}" value="0" step="1">`)
-                $(`#${key}Tea`).before(`<p id="price-${key}-tea">${key.charAt(0).toUpperCase() + key.slice(1)}: ${$(`#${key}Tea`).val()}</p>`);
+                $(`#${key}Tea`).before(`<p id="price-${key}-tea" onclick="enterTea('${key}')" title="Click to change on custom">${key.charAt(0).toUpperCase() + key.slice(1)}: ${$(`#${key}Tea`).val()}</p>`);
                 $('.shop-body').append(`<button onclick="buy('${key}')" class="shop-button" id="by-${key}-tea-button">Buy for ${Shop.price[key]*$(`#${key}Tea`).val()}</button>`)
             }
         }
@@ -583,7 +615,7 @@ function shop() {
     }, 1500)
 }
 
-function ChangeTeaPrise(item) {
+ChangeTeaPrise = (item) => {
     if (Math.floor(Math.random()*2) == 0) {
         Shop.price[`${item}`] += Math.floor(Shop.price[`${item}`]*0.15);
     }
@@ -594,7 +626,7 @@ function ChangeTeaPrise(item) {
         $(`#by-${item}-tea-button`).text(`Buy for ${Shop.price[`${item}`]*$(`#${item}Tea`).val()}`)
     }
 }
-function getTea(item) {
+getTea = (item) => {
     Shop.tea[`${item}`] += Math.floor(Math.random()*50)
     if ((Shop.tea[`${item}`] > 0) && ($(`#${item}Tea`).length == 0)) {
         $(`#price-${item}-tea`).after(`<input type="range" oninput="changePrice('${item}')" id="${item}Tea" min="0" max="${Shop.tea[`${item}`]}" value="0" step="1">`)
@@ -611,7 +643,7 @@ function getTea(item) {
     }
 }
 
-function buy(item) {
+buy = (item) => {
     if (Player.money - Shop.price[`${item}`]*$(`#${item}Tea`).val() < 0) {
         showGameAlert('!','Not enough money!',['alert'],'200px')
     }
@@ -627,7 +659,7 @@ function buy(item) {
             $(`#${item}Tea`).animate({
                 "opacity": "0"
             }, 250)
-            setTimeout(function() {
+            setTimeout(() => {
                 $(`#${item}Tea`).remove();
                 $(`#by-${item}-tea-button`).attr('class','shop-button-disabled');
                 $(`#price-${item}-tea`).text(`${item.charAt(0).toUpperCase() + item.slice(1)}: 0`)
@@ -640,13 +672,13 @@ function buy(item) {
         }
     }
 }
-function changePrice(item) {
+changePrice = (item) => {
     $(`#price-${item}-tea`).text(`${item.charAt(0).toUpperCase() + item.slice(1)}: ${$(`#${item}Tea`).val()}`);
     $(`#by-${item}-tea-button`).text(`Buy for ${$(`#${item}Tea`).val()*Shop.price[`${item}`]}`)
 }
-function about() {
+about = () => {
     showEffect('.sidebar1', 'bottom');
-    setTimeout(function() {
+    setTimeout(() => {
         hideBut();
         $('.sidebar1').empty()
         $('.sidebar1').append('<div class="about-body"></div>')
@@ -656,9 +688,9 @@ function about() {
     }, 1500)
 }
 var teaInProgress = false;
-function makeTea() {
+makeTea = () => {
     showEffect('.sidebar1', 'top left')
-    setTimeout(function() {
+    setTimeout(() => {
         hideBut();
         $('.sidebar1').empty();
         $('.sidebar1').append('<div class="make-body"></div>');
@@ -679,7 +711,7 @@ function makeTea() {
             }
         }
         if (teaInProgress) {
-            setTimeout(function() {
+            setTimeout(() => {
                 $('.make-tea-body').prepend('<div class="make-tea-block"></div>')
                 $('.make-tea-block').animate({
                     "opacity": "1",
@@ -691,7 +723,7 @@ function makeTea() {
         Graphics.apply();
     }, 1500)
 }
-function makeIt(item) {
+makeIt = (item) => {
     if (Player.tea[item] - $(`#select-cups-of-${item}-tea`).val()*3 < 0) {
         showGameAlert('!','Not enought tea leaves!<br /> You need 3 tea leaves to make 1 cup of tea!',['alert'],'200px');
     }
@@ -708,7 +740,7 @@ function makeIt(item) {
         setTimeout(act, time, item, j)
     }
 }
-function act(item, quant) {
+act = (item, quant) => {
     teaInProgress = false;
     Player.tea[item] -= quant*3;
     Player.cups[item] += +quant;
@@ -718,12 +750,12 @@ function act(item, quant) {
         toMake();
     }
 }
-function changeSlectedCups(item) {
+changeSlectedCups = (item) => {
     $(`#selected-cups-of-${item}-tea`).text(`Cups of ${item} tea: ${$(`#select-cups-of-${item}-tea`).val()}`)
     $(`#make-${item}-tea-button`).text(`Make ${$(`#select-cups-of-${item}-tea`).val()} cups`)
 }
 var sellTrigger = false;
-function toMake() {
+toMake = () => {
     if (sellTrigger) {
         $('#where-line').animate({
             "margin-left": "0%"
@@ -744,7 +776,7 @@ function toMake() {
             }
         }
         if (teaInProgress) {
-            setTimeout(function() {
+            setTimeout(() => {
                 $('.make-tea-body').prepend('<div class="make-tea-block"></div>')
                 $('.make-tea-block').animate({
                     "opacity": "1",
@@ -755,7 +787,7 @@ function toMake() {
         }
     }
 }
-function toSell() {
+toSell = () => {
     if (!sellTrigger) {
         $('#where-line').animate({
             "margin-left": "50%"
@@ -777,11 +809,11 @@ function toSell() {
         }
     }
 }
-function changeSlectedCupsToSell(item) {
+changeSlectedCupsToSell = (item) => {
     $(`#selected-to-sell-cups-of-${item}-tea`).text(`Cups of ${item} tea: ${$(`#select-to-sell-cups-of-${item}-tea`).val()}`)
     $(`#sell-${item}-tea-button`).text(`Sell for ${$(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5))}$`);
 }
-function sellIt(item) {
+sellIt = (item) => {
     if ($(`#select-to-sell-cups-of-${item}-tea`).val() == 0){
         showGameAlert('!','Nothing to sell!',['alert'],'200px')
     }
@@ -792,7 +824,7 @@ function sellIt(item) {
         toSell();
     }
 }
-function checkPlayer() {
+checkPlayer = () => {
     for (var key in Player) {
         if ((Player[key] > 22*10**12) || (Player[key] < 0) || (Player[key] === Infinity) || (Player[key] === NaN) || (Player[key] === null)) {
             return false;
@@ -834,10 +866,10 @@ for (; i <= j; ++i) {
     d.push(i);
 };
 i = 0;
-d = d.map(function(name) {
+d = d.map((name) => {
     return name.toString(2);
 });
-function encrypt(message, key = '') {
+encrypt = (message, key = '') => {
     if ((key == undefined) || (key == null) || (key == '')) {
         key = generateKey(message);
     }
@@ -857,7 +889,7 @@ function encrypt(message, key = '') {
         ince++
     }
     var encmes = []
-    encsms.forEach(function(item,i) {
+    encsms.forEach((item,i) => {
         var c = parseInt(item, 2) ^ parseInt(enckey[i], 2);
         encmes.push(c)
     });
@@ -869,7 +901,7 @@ function encrypt(message, key = '') {
 
     return q.join('');
 }
-function generateKey(message) {
+generateKey = (message) => {
     var key = [];
     while (key.length != message.split('').length) {
         key.push(a[Math.floor(Math.random()*93)])
@@ -880,7 +912,7 @@ function generateKey(message) {
 // You found me!
 // Congrulations!
 
-function checkCrypt(encryptMessage) {
+checkCrypt = (encryptMessage) => {
     switch (encryptMessage) {
         case `TT'u\u0013\u001ce
 \u0016
@@ -894,7 +926,7 @@ Ye([^]%\u0004]PuF\u0001\"?\u0004\u0019`:
             return 0;
     }
 }
-function getMessage(num) {
+getMessage = (num) => {
     switch (num) {
         case 0:
             return 'Oops! You made a mistake'

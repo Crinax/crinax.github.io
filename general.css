@@ -9,7 +9,7 @@
     -o-user-select: none;
     user-select: none;
     -ms-overflow-style: none;
-    overflow: -moz-scrollbar-none;
+    overflow: -moz-scrollbars-none;
     scrollbar-width: none;
     --bd-color: hsla(0,100%,67%,100%);
 }
