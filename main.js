@@ -258,7 +258,9 @@ const changeLog = () => {
         <u><b>v1.2:</b></u><br/>
         - In the shop you can enter custom value of tea leaves. Click to the value of tea leaves to change it<br/>
         <u><b>v1.3:</b></u><br/>
-        - Bug fixed
+        - Bug fixed<br/>
+        <u><b>v1.4:</b></u><br/>
+        - Now you can save progress :D<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -450,7 +452,7 @@ const post = (takeData = 0, tp = undefined) => {
     }
 }
 const changeName = () => {
-    showGameAlert('Change Name','Enter new nick or press the cross to cancel',['prompt'],'120px');
+    showGameAlert('Change Name','Enter new nick or press the cross to cancel',['prompt', '1'],'120px');
 }
 const Change = () => {
     $('#player-info>h2').text(`${Player.nickname}`)
@@ -512,8 +514,8 @@ const settings = () => {
         Graphics.apply();
         Graphics.applyToSliders();
         if ($('#save').length == 0) {
-            $('#settings').after('<button id="save">Save</button>')
-            $('#save').after('<button id="load">Load</button>')
+            $('#settings').after('<button id="save" onclick="save();">Save</button>')
+            $('#save').after('<button id="load" onclick="load();">Load</button>')
             $('#save, #load').animate({
                 'opacity': '1'
             }, 1000)
@@ -529,6 +531,38 @@ const settings = () => {
         Graphics.apply();
         Graphics.applyToSliders();
     },1000);
+}
+const save = () => {
+    let data = {
+        plr: JSON.stringify(Player),
+        shp: JSON.stringify(Shop),
+        grp: JSON.stringify(Graphics),
+        rt: root,
+        tmChg: JSON.stringify(timerChange),
+        tmGtr: JSON.stringify(timerGetter),
+        tmr: JSON.stringify(timer),
+        tpTea: JSON.stringify(typesTea)
+    }
+    for (var key in data) {
+        localStorage.setItem(key, data[key]);
+    }
+    showGameAlert('Saved successfully!', '', ['alert'], '75px');
+}
+const load = () => {
+    Player = JSON.parse(localStorage.getItem('plr'));
+    Shop = JSON.parse(localStorage.getItem('shp'));
+    grp = JSON.parse(localStorage.getItem('grp'));
+    for (key in grp) {
+        Graphics[key] = grp[key];
+    }
+    root = +localStorage.getItem('rt');
+    timerChange = JSON.parse(localStorage.getItem('tmChg'));
+    timerGetter = JSON.parse(localStorage.getItem('tmGtr'));
+    timer = JSON.parse(localStorage.getItem('tmr'));
+    typesTea = JSON.parse(localStorage.getItem('tpTea'));
+    Graphics.apply();
+    Graphics.applyToSliders();
+    showGameAlert('Loaded successfully!', '', ['alert'], '75px');
 }
 const check = () => {
     if (Graphics.lowQuality) {
