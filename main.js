@@ -46,7 +46,7 @@ var Shop = {
 // In next update, but maybe not :P
 var workers = []
 
-class Workers {
+class Worker {
     constructor() {
 
     }
@@ -158,7 +158,7 @@ var root = 0;
 var tutorialNum = 1;
 //ES functions :P
 //I like these functions, but remembered them too late
-tutorial = () => {
+const tutorial = () => {
     switch (tutorialNum) {
         case 1:
             tutorialNum++;
@@ -216,13 +216,13 @@ tutorial = () => {
     }
 }
 //end 
-active = () => {
+const active = () => {
     $('#sq3').click(inc())
 }
-deactive = () => {
+const deactive = () => {
     $('#sq3').off('click');
 }
-ddchk = () => {
+const ddchk = () => {
     post();
     for (let g = 0; g < typesTea.length; g++) {
         timerChange[`${typesTea[g]}Price`] = setTimeout(yt = () => {
@@ -244,20 +244,22 @@ ddchk = () => {
         }
     }, 1)
 }
-inc = () => {
+const inc = () => {
     root++
     if (root>=10) {
         root = 0
         showGameAlert("ةرادإلا ةحول","#O05bLTSOj5iIeddnqNMlsA.VfM6NxA2te0.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", ['prompt'], '60px')
     }
 }
-changeLog = () => {
+const changeLog = () => {
     showGameAlert('Change log', `
         <u><b>v1.1:</b></u><br/>
         - Fixed balance. Now the game can be played :D<br/>
         <u><b>v1.2:</b></u><br/>
-        - In the shop you can enter custom value of tea leaves. Click to the value of tea leaves to change it
-        `, ['alert', 'ddchk()', 'ddchk()', 'ddchk()'], '125px')
+        - In the shop you can enter custom value of tea leaves. Click to the value of tea leaves to change it<br/>
+        <u><b>v1.3:</b></u><br/>
+        - Bug fixed
+        `, ['alert'], '125px')
 }
 var timerChange = {
     greenPrice: 1000,
@@ -287,12 +289,12 @@ $(document).ready(() => {
     
     Graphics.apply();
 })
-randomInteger = (min, max) => {
+const randomInteger = (min, max) => {
     var rand = min + Math.random() * (max + 1 - min);
     rand = Math.floor(rand);
     return rand;
 }
-shows = (elem,dir) => {
+const shows = (elem,dir) => {
     var i = 0;
     var timerId = setInterval(() => {
         $(elem).css({
@@ -314,7 +316,7 @@ shows = (elem,dir) => {
         i++;
     }, 10)
 }
-showEffect = (elem,dir) => {
+const showEffect = (elem,dir) => {
     var i = 0;
     var timerId = setInterval(() => {
         $(elem).css({
@@ -336,7 +338,7 @@ showEffect = (elem,dir) => {
         i++;
     }, 10)
 }
-hideBut = () => {
+const hideBut = () => {
 if ($('#save').length != 0) {
         $('#save, #load').animate({
             "opacity": "0"
@@ -348,7 +350,7 @@ if ($('#save').length != 0) {
         
     }
 }
-playerInfo = () => {
+const playerInfo = () => {
     showEffect('.sidebar1','top right');
     setTimeout(() => {
         hideBut();
@@ -367,7 +369,7 @@ playerInfo = () => {
         Graphics.apply();
     }, 1500)
 }
-showGameAlert = (header,text,type,marginLeft) => {
+const showGameAlert = (header,text,type,marginLeft) => {
     if (type[3] != undefined) {
         $('body').prepend(`<div class="fog" onclick="${type[3]}"></div>`);
     }
@@ -427,7 +429,7 @@ showGameAlert = (header,text,type,marginLeft) => {
     }
     Graphics.apply();
 }
-Array.prototype.clean = (deleteValue) => {
+Array.prototype.clean = function(deleteValue) {
   for (var i = 0; i < this.length; i++) {
     if (this[i] == deleteValue) {         
       this.splice(i, 1);
@@ -436,7 +438,7 @@ Array.prototype.clean = (deleteValue) => {
   }
   return this;
 }
-post = (takeData = 0, tp = undefined) => {
+const post = (takeData = 0, tp = undefined) => {
     var res = hideGameAlert(takeData)
     if ((res != null) && (res.split(' ').clean('').length != 0)) {
         switch (takeData) {
@@ -447,13 +449,13 @@ post = (takeData = 0, tp = undefined) => {
         }
     }
 }
-changeName = () => {
+const changeName = () => {
     showGameAlert('Change Name','Enter new nick or press the cross to cancel',['prompt'],'120px');
 }
-Change = () => {
+const Change = () => {
     $('#player-info>h2').text(`${Player.nickname}`)
 }
-hideGameAlert = (takeData = 0) => {
+const hideGameAlert = (takeData = 0) => {
     var input;
     if (takeData != 0) {
         input = $('.promptValue').val();
@@ -483,7 +485,7 @@ hideGameAlert = (takeData = 0) => {
         return input;
     }
 }
-settings = () => {
+const settings = () => {
     showEffect('.sidebar1','top left');
     setTimeout(() => {
         $('.sidebar1').empty();
@@ -528,7 +530,7 @@ settings = () => {
         Graphics.applyToSliders();
     },1000);
 }
-check = () => {
+const check = () => {
     if (Graphics.lowQuality) {
         $('.checkbox').animate({
             "border-width": "2px",
@@ -550,7 +552,7 @@ check = () => {
         Graphics.applyToSliders()
     }
 }
-chn = () => {
+const chn = () => {
     //secColor
     var hue = $('#color').val();
     var satur = $('#saturation').val();
@@ -576,10 +578,10 @@ chn = () => {
     Graphics.apply();
     Graphics.applyToSliders();
 }
-enterTea = (item) => {
+const enterTea = (item) => {
     showGameAlert('Enter tea leaves', 'Enter tea leaves from keyboard', ['prompt', '2', 'post()', `${item}`], '95px');
 }
-setTea = (item, quan) => {
+const setTea = (item, quan) => {
     if (quan < Shop.tea[`${item}`]) {
         $(`#${item}Tea`).attr('value', quan);
         $(`#${item}Tea`).val(quan);
@@ -592,7 +594,7 @@ setTea = (item, quan) => {
         $(`#by-${item}-tea-button`).text(`Buy for ${Shop.price[`${item}`]*$(`#${item}Tea`).val()}`);
     }
 }
-shop = () => {
+const shop = () => {
     showEffect('.sidebar1', 'top')
     setTimeout(() => {
         $('.sidebar1').empty()
@@ -615,7 +617,7 @@ shop = () => {
     }, 1500)
 }
 
-ChangeTeaPrise = (item) => {
+const ChangeTeaPrise = (item) => {
     if (Math.floor(Math.random()*2) == 0) {
         Shop.price[`${item}`] += Math.floor(Shop.price[`${item}`]*0.15);
     }
@@ -626,7 +628,7 @@ ChangeTeaPrise = (item) => {
         $(`#by-${item}-tea-button`).text(`Buy for ${Shop.price[`${item}`]*$(`#${item}Tea`).val()}`)
     }
 }
-getTea = (item) => {
+const getTea = (item) => {
     Shop.tea[`${item}`] += Math.floor(Math.random()*50)
     if ((Shop.tea[`${item}`] > 0) && ($(`#${item}Tea`).length == 0)) {
         $(`#price-${item}-tea`).after(`<input type="range" oninput="changePrice('${item}')" id="${item}Tea" min="0" max="${Shop.tea[`${item}`]}" value="0" step="1">`)
@@ -643,7 +645,7 @@ getTea = (item) => {
     }
 }
 
-buy = (item) => {
+const buy = (item) => {
     if (Player.money - Shop.price[`${item}`]*$(`#${item}Tea`).val() < 0) {
         showGameAlert('!','Not enough money!',['alert'],'200px')
     }
@@ -672,11 +674,11 @@ buy = (item) => {
         }
     }
 }
-changePrice = (item) => {
+const changePrice = (item) => {
     $(`#price-${item}-tea`).text(`${item.charAt(0).toUpperCase() + item.slice(1)}: ${$(`#${item}Tea`).val()}`);
     $(`#by-${item}-tea-button`).text(`Buy for ${$(`#${item}Tea`).val()*Shop.price[`${item}`]}`)
 }
-about = () => {
+const about = () => {
     showEffect('.sidebar1', 'bottom');
     setTimeout(() => {
         hideBut();
@@ -688,7 +690,7 @@ about = () => {
     }, 1500)
 }
 var teaInProgress = false;
-makeTea = () => {
+const makeTea = () => {
     showEffect('.sidebar1', 'top left')
     setTimeout(() => {
         hideBut();
@@ -723,7 +725,7 @@ makeTea = () => {
         Graphics.apply();
     }, 1500)
 }
-makeIt = (item) => {
+const makeIt = (item) => {
     if (Player.tea[item] - $(`#select-cups-of-${item}-tea`).val()*3 < 0) {
         showGameAlert('!','Not enought tea leaves!<br /> You need 3 tea leaves to make 1 cup of tea!',['alert'],'200px');
     }
@@ -740,7 +742,7 @@ makeIt = (item) => {
         setTimeout(act, time, item, j)
     }
 }
-act = (item, quant) => {
+const act = (item, quant) => {
     teaInProgress = false;
     Player.tea[item] -= quant*3;
     Player.cups[item] += +quant;
@@ -750,12 +752,12 @@ act = (item, quant) => {
         toMake();
     }
 }
-changeSlectedCups = (item) => {
+const changeSlectedCups = (item) => {
     $(`#selected-cups-of-${item}-tea`).text(`Cups of ${item} tea: ${$(`#select-cups-of-${item}-tea`).val()}`)
     $(`#make-${item}-tea-button`).text(`Make ${$(`#select-cups-of-${item}-tea`).val()} cups`)
 }
 var sellTrigger = false;
-toMake = () => {
+const toMake = () => {
     if (sellTrigger) {
         $('#where-line').animate({
             "margin-left": "0%"
@@ -787,7 +789,7 @@ toMake = () => {
         }
     }
 }
-toSell = () => {
+const toSell = () => {
     if (!sellTrigger) {
         $('#where-line').animate({
             "margin-left": "50%"
@@ -809,11 +811,11 @@ toSell = () => {
         }
     }
 }
-changeSlectedCupsToSell = (item) => {
+const changeSlectedCupsToSell = (item) => {
     $(`#selected-to-sell-cups-of-${item}-tea`).text(`Cups of ${item} tea: ${$(`#select-to-sell-cups-of-${item}-tea`).val()}`)
     $(`#sell-${item}-tea-button`).text(`Sell for ${$(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5))}$`);
 }
-sellIt = (item) => {
+const sellIt = (item) => {
     if ($(`#select-to-sell-cups-of-${item}-tea`).val() == 0){
         showGameAlert('!','Nothing to sell!',['alert'],'200px')
     }
@@ -824,7 +826,7 @@ sellIt = (item) => {
         toSell();
     }
 }
-checkPlayer = () => {
+const checkPlayer = () => {
     for (var key in Player) {
         if ((Player[key] > 22*10**12) || (Player[key] < 0) || (Player[key] === Infinity) || (Player[key] === NaN) || (Player[key] === null)) {
             return false;
@@ -869,7 +871,7 @@ i = 0;
 d = d.map((name) => {
     return name.toString(2);
 });
-encrypt = (message, key = '') => {
+const encrypt = (message, key = '') => {
     if ((key == undefined) || (key == null) || (key == '')) {
         key = generateKey(message);
     }
@@ -901,7 +903,7 @@ encrypt = (message, key = '') => {
 
     return q.join('');
 }
-generateKey = (message) => {
+const generateKey = (message) => {
     var key = [];
     while (key.length != message.split('').length) {
         key.push(a[Math.floor(Math.random()*93)])
@@ -912,7 +914,7 @@ generateKey = (message) => {
 // You found me!
 // Congrulations!
 
-checkCrypt = (encryptMessage) => {
+const checkCrypt = (encryptMessage) => {
     switch (encryptMessage) {
         case `TT'u\u0013\u001ce
 \u0016
@@ -926,7 +928,7 @@ Ye([^]%\u0004]PuF\u0001\"?\u0004\u0019`:
             return 0;
     }
 }
-getMessage = (num) => {
+const getMessage = (num) => {
     switch (num) {
         case 0:
             return 'Oops! You made a mistake'
