@@ -9,9 +9,12 @@
     -o-user-select: none;
     user-select: none;
     -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
+    overflow: -moz-scrollbar-none;
     scrollbar-width: none;
     --bd-color: hsla(0,100%,67%,100%);
+}
+*::-webkit-scrollbar {
+    width: 0;
 }
 body {
     height: 679px;

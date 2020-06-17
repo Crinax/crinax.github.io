@@ -774,7 +774,7 @@ function toSell() {
 }
 function changeSlectedCupsToSell(item) {
     $(`#selected-to-sell-cups-of-${item}-tea`).text(`Cups of ${item} tea: ${$(`#select-to-sell-cups-of-${item}-tea`).val()}`)
-    $(`#sell-${item}-tea-button`).text(`Sell for ${$(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] / 2))}$`);
+    $(`#sell-${item}-tea-button`).text(`Sell for ${$(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5))}$`);
 }
 function sellIt(item) {
     if ($(`#select-to-sell-cups-of-${item}-tea`).val() == 0){
@@ -782,7 +782,7 @@ function sellIt(item) {
     }
     else {
         Player.cups[item] -= +$(`#select-to-sell-cups-of-${item}-tea`).val();
-        Player.money += $(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] / 2));
+        Player.money += $(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5));
         sellTrigger = false;
         toSell();
     }
