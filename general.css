@@ -75,7 +75,7 @@ footer {
     border: 2px solid  var(--bd-color);
     z-index: 102;
     box-shadow: -5px -0.75px 5px 0px #000;
-    transition: .25s ease-in-out;
+    transition: transform .25s ease-in-out;
 }
 #sq2 {
     margin-top: 90px;
@@ -107,7 +107,7 @@ footer {
     margin-top: -400px;
     transform: rotate(-115deg);
     box-shadow: -5px -0.75px 5px 0px #000;
-    transition: .25s ease-in-out;
+    transition: transform .25s ease-in-out;
 }
 #sqh:hover {
     transform: rotate(-120deg);
@@ -312,7 +312,7 @@ input[type=range] {
     background: none;
     border: 2px solid #f55;
     border-radius: 10px;
-    transition: .1s;
+    /*transition: .1s;*/
     -webkit-appearance: none;
 }
 input[type=range]::-moz-range-thumb {
@@ -336,7 +336,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 15px;
     cursor: col-resize;
 }
-input[type=range]::-ms-thumb{
+input[type=range]::-ms-thumb {
     background: #2220;
     border-radius: 10px;
     width: 30px;
@@ -376,7 +376,7 @@ h3 {
     margin-top: 35px;
     margin-bottom: 40px;
     margin-left: 13px;
-    transition: .25s;
+    /*transition: .25s;*/
 }
 a:hover {
     text-decoration: none;

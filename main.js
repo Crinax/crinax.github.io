@@ -261,6 +261,8 @@ const changeLog = () => {
         - Bug fixed<br/>
         <u><b>v1.4:</b></u><br/>
         - Now you can save progress :D<br/>
+        <u><b>v1.5:</b></u><br/>
+        - Bug fixed<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -287,9 +289,8 @@ var timer = {
 }
 var typesTea = ['green','black','yellow','red','white','oolong','puer'];
 $(document).ready(() => {
-    
-    
     Graphics.apply();
+    Graphics.applyToSliders();
 })
 const randomInteger = (min, max) => {
     var rand = min + Math.random() * (max + 1 - min);
@@ -532,8 +533,18 @@ const settings = () => {
         Graphics.applyToSliders();
     },1000);
 }
+var data = {
+    plr: null,
+    shp: null,
+    grp: null,
+    rt: null,
+    tmChg: null,
+    tmGtr: null,
+    tmr: null,
+    tpTea: null
+}
 const save = () => {
-    let data = {
+    data = {
         plr: JSON.stringify(Player),
         shp: JSON.stringify(Shop),
         grp: JSON.stringify(Graphics),
@@ -549,6 +560,11 @@ const save = () => {
     showGameAlert('Saved successfully!', '', ['alert'], '75px');
 }
 const load = () => {
+    for (key in data) {
+        if (localStorage.getItem(key) == null) {
+            return showGameAlert('Loading error!', 'Saving not found', ['alert'], '95px');
+        }
+    }
     Player = JSON.parse(localStorage.getItem('plr'));
     Shop = JSON.parse(localStorage.getItem('shp'));
     grp = JSON.parse(localStorage.getItem('grp'));
@@ -613,9 +629,12 @@ const chn = () => {
     Graphics.applyToSliders();
 }
 const enterTea = (item) => {
-    showGameAlert('Enter tea leaves', 'Enter tea leaves from keyboard', ['prompt', '2', 'post()', `${item}`], '95px');
+    showGameAlert('Enter tea leaves', 'Enter tea leaves from keyboard or enter "max" to buy maximum tea leaves', ['prompt', '2', 'post()', `${item}`], '95px');
 }
 const setTea = (item, quan) => {
+    if (quan.toLocaleLowerCase() == "max") {
+        quan = Math.floor(Player.money / Shop.price[item]);
+    }
     if (quan < Shop.tea[`${item}`]) {
         $(`#${item}Tea`).attr('value', quan);
         $(`#${item}Tea`).val(quan);
@@ -736,7 +755,7 @@ const makeTea = () => {
         sellTrigger = false;
         $('.make-body').append('<div class="make-tea-body"></div>')
         for (key in Player.tea) {
-            if (Player.tea[key]/3 <= 1) {
+            if (Player.tea[key]/3 < 1) {
                 $('.make-tea-body').append(`<p id="selected-cups-of-${key}-tea">Cups of ${key} tea: 0</p>`);
                 $('.make-tea-body').append(`<button class="shop-button-disabled" id="make-${key}-tea-button">Not enough leaves!</button>`)
             }
@@ -801,7 +820,7 @@ const toMake = () => {
         $('.make-tea-body').remove()
         $('.make-body').append('<div class="make-tea-body"></div>')
         for (key in Player.tea) {
-            if (Player.tea[key]/3 <= 1) {
+            if (Player.tea[key]/3 < 1) {
                 $('.make-tea-body').append(`<p id="selected-cups-of-${key}-tea">Cups of ${key} tea: 0</p>`);
                 $('.make-tea-body').append(`<button class="shop-button-disabled" id="make-${key}-tea-button">Not enough leaves!</button>`)
             }
@@ -822,6 +841,8 @@ const toMake = () => {
             }, 0)
         }
     }
+    Graphics.apply();
+    Graphics.applyToSliders();
 }
 const toSell = () => {
     if (!sellTrigger) {
@@ -844,6 +865,8 @@ const toSell = () => {
             }
         }
     }
+    Graphics.apply();
+    Graphics.applyToSliders();
 }
 const changeSlectedCupsToSell = (item) => {
     $(`#selected-to-sell-cups-of-${item}-tea`).text(`Cups of ${item} tea: ${$(`#select-to-sell-cups-of-${item}-tea`).val()}`)
