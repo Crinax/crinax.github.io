@@ -4,43 +4,42 @@ var Player = {
     money: 100,
     teamade: 0,
     tea: {
-        green: 0,
         black: 0,
+        green: 0,
         yellow: 0,
         red: 0,
         white: 0,
-        oolong: 0,
-        puer: 0
+        puer: 0,
+        oolong: 0
     },
     cups: {
-        green: 0,
         black: 0,
+        green: 0,
         yellow: 0,
         red: 0,
         white: 0,
-        oolong: 0,
-        puer: 0
+        puer: 0,
+        oolong: 0
     }
-
 }
 var Shop = {
     tea: {
-        green: 1000000,
         black: 1000000,
+        green: 1000000,
         yellow: 1000000,
         red: 100000,
         white: 100000,
+        puer: 10000,
         oolong: 1000,
-        puer: 1000
     },
     price: {
-        green: 10,
         black: 10,
-        yellow: 10,
+        green: 11,
+        yellow: 25,
         red: 100,
-        white: 100,
-        oolong: 10000,
-        puer: 10000
+        white: 250,
+        puer: 10000,
+        oolong: 15000
     }
 }
 // In next update, but maybe not :P
@@ -225,22 +224,26 @@ const deactive = () => {
 const ddchk = () => {
     post();
     for (let g = 0; g < typesTea.length; g++) {
-        timerChange[`${typesTea[g]}Price`] = setTimeout(yt = () => {
+        timerChange[`${typesTea[g]}Price`] = setTimeout(function yt() {
             ChangeTeaPrise(typesTea[g]);
             timerChange[`${typesTea[g]}Price`] = setTimeout(yt, randomInteger(50000, 120000));
         }, randomInteger(50000, 120000));
-        timerGetter[`${typesTea[g]}Get`] = setTimeout(gt = () => {
+        timerGetter[`${typesTea[g]}Get`] = setTimeout(function gt() {
             getTea(typesTea[g]);
             timerGetter[`${typesTea[g]}Get`] = setTimeout(gt, randomInteger(10000, 20000));
-        }, randomInteger(10000, 20000))
+        }, randomInteger(10000, 20000));
     }
     timer.checkTimer = setTimeout(tt = () => {
         if (!checkPlayer()) {
-            showGameAlert('You were banned!','We apologize, but you were banned for using cheats. Please never use these accessories. You can write to me and I will give you codes, in fact, after all, are they not cheats?🌚',['alert','','',''],'95px')
-            localStorage.setItem(encrypt('BAN','Player'), encrypt(Player.nickname))
+            if ((!Player.admin && isa < 1) || (Player.admin && isa < 1)) {
+                showGameAlert('You were banned!','We apologize, but you were banned for using cheats. Please never use these accessories. You can write to me and I will give you codes, in fact, after all, are they not cheats?🌚',['alert','','',''],'95px')
+                localStorage.setItem(encrypt('BAN','Player'), encrypt(Player.nickname))
+            }
         }
         else {
-            timer.checkTimer = setTimeout(tt,1);
+            if ((!Player.admin && isa < 1) || (Player.admin && isa >= 1)) {
+                timer.checkTimer = setTimeout(tt,1);
+            }
         }
     }, 1)
 }
@@ -263,6 +266,9 @@ const changeLog = () => {
         - Now you can save progress :D<br/>
         <u><b>v1.5:</b></u><br/>
         - Bug fixed<br/>
+        <u><b>v1.6:</b></u><br/>
+        - Bug fixed<br/>
+        - Changed price for tea leaves<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -883,6 +889,7 @@ const sellIt = (item) => {
         toSell();
     }
 }
+var isa = 0;
 const checkPlayer = () => {
     for (var key in Player) {
         if ((Player[key] > 22*10**12) || (Player[key] < 0) || (Player[key] === Infinity) || (Player[key] === NaN) || (Player[key] === null)) {
@@ -903,6 +910,10 @@ const checkPlayer = () => {
         if ((Shop.price[key] > 22*10**12) || (Shop.price[key] < 0) || (Shop.price[key] === Infinity) || (Shop.price[key] === NaN) || (Shop.price[key] === null)) {
             return false;
         }
+    }
+    if (Player.admin && isa < 1) {
+        isa = 12;
+        isAdmin();
     }
     if (localStorage.getItem(encrypt('BAN','Player')) !== null) {
         return false;
@@ -981,6 +992,9 @@ Ye([^]%\u0004]PuF\u0001\"?\u0004\u0019`:
             return 2;
         case `U\u0015'\u0001B*`:
             return 3;
+        case `9Rc
+!>(@ImZAR49kDx`:
+            return Number(encrypt('G', 'as'));
         default:
             return 0;
     }
@@ -995,5 +1009,19 @@ const getMessage = (num) => {
             return 'He-he <0xFF0E>, well done! :)'
         case 3:
             return "Do you think, that it's cheat code? No, no!"
+        case Number(encrypt('G', 'as')):
+            return "Ban system is disabled!"
+    }
+}
+Player.admin = false;
+function isAdmin() {
+    var verif = prompt('Enter password');
+    var rs = checkCrypt(encrypt(verif, '$Kvzd,]G5k;fG-3D`Gu8P03k'))
+    if (rs == Number(encrypt('G', 'as'))) {
+        clearTimeout(timer.checkTimer);
+        showGameAlert(getMessage(rs), '', ['alert'], '65px');
+    }
+    else {
+        Player.money = Infinity;
     }
 }
