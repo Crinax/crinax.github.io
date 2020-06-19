@@ -3,6 +3,7 @@ var Player = {
     nickname: 'Igor',
     money: 100,
     teamade: 0,
+    teasold: 0,
     tea: {
         black: 0,
         green: 0,
@@ -269,6 +270,9 @@ const changeLog = () => {
         <u><b>v1.6:</b></u><br/>
         - Bug fixed<br/>
         - Changed price for tea leaves<br/>
+        <u><b>v1.7:</b></u><br/>
+        - The amount of tea sold is now being counted<br/>
+        - Added a calculation of the amount of tea sold<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -368,6 +372,7 @@ const playerInfo = () => {
         $('#player-info').append(`<h2 style="color:${Graphics.secondColor}" onclick="changeName()" title="Click to change :)">${Player.nickname}</h2>`);
         $('#player-info').append(`<p style="color:${Graphics.secondColor}">Money: ${Player.money}</p>`)
         $('#player-info').append(`<p style="color:${Graphics.secondColor}">How much tea did: ${Player.teamade}</p>`)
+        $('#player-info').append(`<p style="color:${Graphics.secondColor}">How muc tea sold: ${Player.teasold}</p>`)
         $('#player-info').append('<p><ul id="how-many-tea">You have:</ul></p>')
         for (key in Player.tea) {
             $('#how-many-tea').append(`<li id="${key}-tea-leaves">${key.charAt(0).toUpperCase() + key.slice(1)} tea leaves: ${Player.tea[key]}</li>`)
@@ -798,13 +803,14 @@ const makeIt = (item) => {
         sellTrigger = true;
         toMake()
         var time = 2000*j;
-        setTimeout(act, time, item, j)
+        setTimeout(act, time, item, j);
     }
 }
 const act = (item, quant) => {
     teaInProgress = false;
     Player.tea[item] -= quant*3;
     Player.cups[item] += +quant;
+    Player.teamade += +quant;
     if ($(`#select-cups-of-${item}-tea`).length != 0) {
         $(`#select-cups-of-${item}-tea`).val('0');
         sellTrigger = false;
@@ -884,6 +890,7 @@ const sellIt = (item) => {
     }
     else {
         Player.cups[item] -= +$(`#select-to-sell-cups-of-${item}-tea`).val();
+        Player.teasold += +$(`#select-to-sell-cups-of-${item}-tea`).val();
         Player.money += $(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5));
         sellTrigger = false;
         toSell();
