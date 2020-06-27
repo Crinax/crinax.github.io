@@ -21,7 +21,10 @@ var Player = {
         white: 0,
         puer: 0,
         oolong: 0
-    }
+    },
+    completedQuests: 0,
+    autoSave: false,
+    admin: false
 }
 var Shop = {
     tea: {
@@ -43,15 +46,251 @@ var Shop = {
         oolong: 15000
     }
 }
-// In next update, but maybe not :P
-var workers = []
+var quests = {
+    1: {
+        prevQuest: null,
+        text: 'Beginner teamaker',
+        conditions: {
+            teamade: 5
+        },
+        reward: {
+            tea: {
+                black: 10
+            },
+            money: 50
+        },
+        status: 'not completed',
+        nextQuest: 2
+    },
+    2: {
+        prevQuest: 1,
+        text: 'Intermediate teamaker',
+        conditions: {
+            teamade: 50
+        },
+        reward: {
+            tea: {
+                black: 100,
+                green: 50,
+                yellow: 25
+            },
+            cups: {
+                black: 10
+            },
+            money: 750
+        },
+        status: 'not completed',
+        nextQuest: 3
+    },
+    3: {
+        prevQuest: 2,
+        text: 'Advanced teamaker',
+        conditions: {
+            teamade: 250
+        },
+        reward: {
+            tea: {
+                black: 1000,
+                green: 250,
+                yellow: 100,
+                red: 50,
+                white: 50
+            },
+            cups: {
+                red: 5,
+                white: 5
+            },
+            money: 5000
+        },
+        status: 'not completed',
+        nextQuest: 4
+    },
+    4: {
+        prevQuest: 3,
+        text: 'Expert teamaker',
+        conditions: {
+            teamade: 750
+        },
+        reward: {
+            tea: {
+                red: 100,
+                white: 100
+            },
+            cups: {
+                red: 25,
+                white: 25
+            },
+            money: 10000
+        },
+        status: 'not completed',
+        nextQuest: 5
+    },
+    5: {
+        prevQuest: 4,
+        text: 'Tea master',
+        conditions: {
+            teamade: 10000
+        },
+        reward: {
+            tea: {
+                black: 5000,
+                green: 4000,
+                yellow: 3000,
+                red: 2000,
+                white: 1000,
+                puer: 750,
+                oolong: 500
+            },
+            cups: {
+                black: 50,
+                green: 50,
+                yellow: 50,
+                red: 50,
+                white: 50,
+                puer: 10,
+                oolong: 10
+            },
+            money: 1000000
+        },
+        status: 'not completed',
+        nextQuest: null
+    },
+    6: {
+        prevQuest: null,
+        text: 'Beginner tea seller',
+        conditions: {
+            teasold: 50
+        },
+        reward: {
+            cups: {
+                green: 1
+            },
+            money: 1500
+        },
+        status: 'not completed',
+        nextQuest: 7
+    },
+    7: {
+        prevQuest: 6,
+        text: 'Intermediate tea seller',
+        conditions: {
+            teasold: 750
+        },
+        reward: {
+            cups: {
+                puer: 1
+            },
+            money: 10000
+        },
+        status: 'not completed',
+        nextQuest: 8
+    },
+    8: {
+        prevQuest: 7,
+        text: 'Advanced tea seller',
+        conditions: {
+            teasold: 5000
+        },
+        reward: {
+            cups: {
+                puer: 25,
+                oolong: 10
+            },
+            money: 500000
+        },
+        status: 'not completed',
+        nextQuest: 9
+    },
+    9: {
+        prevQuest: 8,
+        text: 'Expert tea seller',
+        conditions: {
+            teasold: 25000
+        },
+        reward: {
+            cups: {
+                oolong: 25
+            },
+            money: 10000000
+        },
+        status: 'not completed',
+        nextQuest: null
+    },
+    10: {
+        prevQuest: null,
+        text: 'Small businessman',
+        conditions: {
+            money: 100000
+        },
+        reward: {
+            money: 100000,
+            workers: new Worker()
+        },
+        status: 'not completed',
+        nextQuest: 11
+    },
+    11: {
+        prevQuest: 10,
+        text: 'Middle businessman',
+        conditions: {
+            money: 10000000
+        },
+        reward: {
+            money: 10000000,
+            workers: new Worker()
+        },
+        status: 'not completed',
+        nextQuest: 12
+    },
+    12: {
+        prevQuest: 11,
+        text: 'Major businessman',
+        conditions: {
+            money: 100000000
+        },
+        reward: {
+            money: 100000000,
+            workers: new Worker()
+        },
+        status: 'not completed',
+        nextQuest: null
+    },
+    13: {
+        prevQuest: null,
+        text: 'I am admin!',
+        conditions: {
+            admin: true
+        },
+        reward: {
 
-class Worker {
-    constructor() {
-
+        },
+        status: 'not completed',
+        nextQuest: null
     }
+};
+/*
+Quest template
+: {
+        prevQuest: ,
+        text: '',
+        conditions: {
+
+        },
+        reward: {
+
+        },
+        status: 'not completed',
+        nextQuest: 
+    }
+*/
+var workers = [null]
+function Worker(level = 1, moneyToNextLevel = 100000, moneyInc = 50000, delay = 3000, timer = 0) {
+    this.level = level; //1
+    this.moneyToNextLevel = moneyToNextLevel; //100000
+    this.moneyInc = moneyInc; //50000
+    this.delay = delay; //2000
+    this.timer = timer; //0
 }
-//------------------
 var Graphics = {
     firstColor: "#222",
     secondColor: "hsla(0,100%,67%,100%)",
@@ -150,70 +389,133 @@ var Graphics = {
         }
     },
     applyToSliders() {
-        var all = $('input[type=range]');
-        all.css('--bd-color',`hsla(${Graphics.hue},${Graphics.sat}%,${Graphics.lig}%,${Graphics.alp}%)`);
+        var all = null
+        if ($('input[type=range]').length != 0) {
+            all = $('input[type=range]');
+            all.css('--bd-color',`hsla(${Graphics.hue},${Graphics.sat}%,${Graphics.lig}%,${Graphics.alp}%)`);
+        }
+        if ($('progress').length != 0) {
+            all = $('progress');
+            all.css('--bd-color',`hsla(${Graphics.hue},${Graphics.sat}%,${Graphics.lig}%,${Graphics.alp}%)`);
+        }
     }
 }
 var root = 0;
 var tutorialNum = 1;
-//ES functions :P
-//I like these functions, but remembered them too late
+const refTutorial = () => {
+    showGameAlert('Attention', 'Do you want to go tutorial?<br/>Click OK if you want to pass, or cross if not<br/>If you want to pass it later, it will be in the settings', ['alert', 'toTutorial()', 'ddchk()', 'ddchk();'], '150px');
+}
+const toTutorial = () => {
+    if (timer.workers == 0) {
+        ddchk();
+    };
+    tutorialNum = 1;
+    tutorial();
+}
 const tutorial = () => {
-    switch (tutorialNum) {
-        case 1:
-            tutorialNum++;
-            showGameAlert('Tutorial','You can make or sell cups of tea in the "To make tea!" section<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-            break;
-        case 2:
-            post();
-            setTimeout(() => {
-                tutorialNum++;
-                showGameAlert('Tutorial','You can buy tea leaves in the "Shop" section<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-            }, 250)
-            break;
-        case 3:
-            post();
-            setTimeout(() => {
-                tutorialNum++;
-                showGameAlert('Tutorial','You can see your statistics and change nick in the "Player" section<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-            }, 250)
-            break;
-        case 4:
-            post();
-            setTimeout(() => {
-                tutorialNum++;
-                showGameAlert('Tutorial','You can customize the game for yourself in the "Settings" section<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-            }, 250)
-            break;
-        case 5:
-            post();
-            setTimeout(() => {
-                tutorialNum++;
-                showGameAlert('Tutorial','You need 3 tea leaves to create 1 cup of tea<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-            }, 250)
-            break;
-        case 6:
-            post();
-            setTimeout(() => {
-                tutorialNum++;
-                showGameAlert('Tutorial','Report me about all the bugs<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-            }, 250)
-            break;
-        case 7:
-            post();
-            setTimeout(() => {
-                tutorialNum++;
-                showGameAlert('Tutorial','Good luck and have fun! ( ͡° ͜ʖ ͡°)<br/><br/><a onclick="ddchk()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-            }, 250)
-            break;
-        case 8:
-            post();
-            setTimeout(() => {
-                tutorialNum++;
-                showGameAlert('Tutorial','Use a PC for more convenience ( ͡° ͜ʖ ͡°)',['alert','ddchk()','ddchk()','ddchk()'],'150px');
-            }, 250)
-            break;
-    }
+    post();
+    setTimeout(() => {
+        switch (tutorialNum) {
+            /*
+            case :
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            */
+            case 1:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','You can make or sell cups of tea in the "To make tea!" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 2:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','You need 3 tea leaves to make 1 cup of tea<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 3:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','It takes 2 seconds to prepare one cup of tea<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 4:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial',`While making tea you can't make another tea, but you can sell tea mugs.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 5:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial',`Workers make tea in your place if you have tea leaves, even if you can't make them yourself.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 6:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','You can get workers by performing quests related to the recruitment of a certain amount of money<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 7:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','You can see your statistics and change nick in the "Player" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 8:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','Also in this section you can see information about quests and pick up the award.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 9:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','You can buy tea leaves in the "Shop" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 10:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','Click on the name of the tea to enter the exact quantity.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 11:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','Also in this section you can improve your workers. Originally they make 1 mug in 2 seconds, but this speed can be increased to 1 mug in 0.25 seconds<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 12:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','You can customize the game for yourself in the "Settings" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 13:
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial',`In this section, you can:<br/>
+                    - Save and load progress<br/>
+                    - Go through the tutorial again<br/>
+                    - Change the color of elements<br/>
+                    - Enable or disable low graphics<br/>
+                    - Enable or disable autosave<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250);
+                break;
+            case 14:
+                post();
+                setTimeout(() => {
+                    tutorialNum++;
+                    showGameAlert('Tutorial','Report me about all the bugs<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                }, 250)
+                break;
+        }
+    }, 250);
 }
 //end 
 const active = () => {
@@ -224,6 +526,7 @@ const deactive = () => {
 }
 const ddchk = () => {
     post();
+    tutorialNum = 1;
     for (let g = 0; g < typesTea.length; g++) {
         timerChange[`${typesTea[g]}Price`] = setTimeout(function yt() {
             ChangeTeaPrise(typesTea[g]);
@@ -247,6 +550,65 @@ const ddchk = () => {
             }
         }
     }, 1)
+    timer.questCheckTimer = setTimeout(qq = () => {
+        checkQuests();
+        timer.questCheckTimer = setTimeout(qq, 1);
+    }, 1);
+    timer.workersPrice = setTimeout(idw = () => {
+        for (var i = 1; i < workers.length; i++) {
+            changeWorkersPrice(i);
+        };
+        timer.workersPrice = setTimeout(idw, randomInteger(50000, 120000))
+    }, randomInteger(50000, 120000));
+    timer.workers = setTimeout(ldc = () => {
+        for (var i = 1; i < workers.length; i++) {
+            // console.log(i);
+            setTimeout(workerGetCup(i), 1);
+        };
+        timer.workers = setTimeout(ldc, 1);
+    }, 1);
+}
+const workerGetCup = (id) => {
+    var trigWorker = false;
+    for (var key in Player.tea) {
+        if (Player.tea[key] >= 3) {
+            trigWorker = true;
+            break;
+        };
+    };
+    if (trigWorker && workers[id].timer == 0) {
+        workers[id].timer = setTimeout(function wd() {
+            if (Player.tea[key] >= 3) {
+                Player.tea[key] -= 3;
+                Player.cups[key] += 1;
+                Player.teamade += 1;
+                workers[id].timer = setTimeout(wd, workers[id].delay);
+            };
+        }, workers[id].delay);
+    };
+}
+const workerUpgrade = (id) => {
+    if (Player.money - workers[id].moneyToNextLevel < 0) {
+        showGameAlert('!', 'Not enough money!', ['alert'], '200px');
+    }
+    else {
+        Player.money -= workers[id].moneyToNextLevel;
+        workers[id].level += 1;
+        workers[id].moneyToNextLevel += workers[id].moneyInc;
+        workers[id].delay -= 250;
+        clearTimeout(workers[id].timer);
+        workers[id].timer = 0;
+        workerGetCup(id);
+        toWorkers();
+    };
+}
+const changeWorkersPrice = (id) => {
+    if (Math.floor(Math.random()*2) == 0) {
+        workers[id].moneyInc += Math.floor(workers[id].moneyInc*0.15);
+    }
+    else {
+        workers[id].moneyInc -= Math.floor(workers[id].moneyInc*0.05);
+    };
 }
 const inc = () => {
     root++
@@ -273,6 +635,14 @@ const changeLog = () => {
         <u><b>v1.7:</b></u><br/>
         - The amount of tea sold is now being counted<br/>
         - Added a calculation of the amount of tea sold<br/>
+        <u><b>v2.0:</b></u><br/>
+        - Initial tea prices have been changed<br/>
+        - The mugs are made one at a time, not all at once<br/>
+        - Added display of remaining time<br/>
+        - Added icon in the tab<br/>
+        - Improved tutorial<br/>
+        - Added quests<br/>
+        - Added workers<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -295,7 +665,12 @@ var timerGetter = {
     puerGet: 1000
 }
 var timer = {
-    checkTimer: 0
+    checkTimer: 0,
+    progressTimer: 0,
+    makeTimer: 0,
+    questCheckTimer: 0,
+    workersPrice: 0,
+    workers: 0
 }
 var typesTea = ['green','black','yellow','red','white','oolong','puer'];
 $(document).ready(() => {
@@ -363,24 +738,279 @@ if ($('#save').length != 0) {
         
     }
 }
+var achTrig = true;
+var branch;
+var idi;
+const showPush = (text) => {
+    $('.wrapper').append('<div class="push-message"></div>');
+    $('.push-message').css({
+        "width": "270px",
+        "height": "100px",
+        "background": `${Graphics.firstColor}`,
+        "border": `1px solid ${Graphics.secondColor}`,
+        "box-sizing": "border-box",
+        "position": "relative",
+        "top": "-19%",
+        "left": "110%",
+        "opacity": "0",
+        "z-index": "2000",
+        "text-align": "center"
+    });
+    $('.push-message').append('<p id="completed-quest-header"><b>Quest completed!</b></p>');
+    $('#completed-quest-header').css({
+        "color": `${Graphics.secondColor}`,
+        "font-size": "12pt"
+    })
+    $('.push-message').append(`<p id="completed-quest-body">Quest "${text}" completed!</p>`);
+    $('#completed-quest-body').css({
+        "color": `${Graphics.secondColor}`,
+        "font-size": "12pt"
+    });
+    $('.push-message').animate({
+        "left": "45%",
+        "opacity": "1"
+    }, 300)
+    setTimeout(function() {
+        $('.push-message').animate({
+            "left": "110%",
+            "opacity": "0"
+        }, 300)
+    }, 2300)
+    setTimeout(function() {
+        $('.push-message').remove();
+    }, 2900)
+}
+const checkQuests = () => {
+    var conditions;
+    for (i in quests) {
+        if (quests[i].status == 'not completed') {
+            conditions = quests[i].conditions;
+            for (var reqs in conditions) {
+                if (conditions[reqs].constructor === Object) {
+                    for (var elem in conditions[reqs]) {
+                        if (typeof(conditions[reqs][elem]) != 'number') {
+                            if (Player[reqs][elem] == conditions[reqs][elem]) {
+                                quests[i].status = 'completed';
+                                if ($('.quests-body').length != 0) {
+                                    $('.quests-body').empty();
+                                    showQuests();
+                                };
+                                showPush(quests[i].text);
+                            };
+                        }
+                        else {
+                            if (Player[reqs][elem] >= conditions[reqs][elem]) {
+                                quests[i].status = 'completed';
+                                if ($('.quests-body').length != 0) {
+                                    $('.quests-body').empty();
+                                    showQuests();
+                                };
+                                showPush(quests[i].text);
+                            };
+                        };
+                    };
+                }
+                else {
+                    if (typeof(conditions[reqs]) != 'number') {
+                        if (Player[reqs] == conditions[reqs]) {
+                            quests[i].status = 'completed';
+                            if ($('.quests-body').length != 0) {
+                                $('.quests-body').empty();
+                                showQuests();
+                            };
+                            showPush(quests[i].text);
+                        };
+                    }
+                    else {
+                        if (Player[reqs] >= conditions[reqs]) {
+                            quests[i].status = 'completed';
+                            if ($('.quests-body').length != 0) {
+                                $('.quests-body').empty();
+                                showQuests();
+                            };
+                            showPush(quests[i].text);
+                        };
+                    };
+                };
+            };
+        };
+    };
+}
+const getInfo = (id) => {
+    var conditions = quests[id].conditions;
+    var reward = quests[id].reward;
+    var text = 'You must fulfill the following <u><b>conditions</b></u>:<br/>';
+    if (conditions.constructor === Object) {
+        for (var reqs in conditions) {
+            if (conditions[reqs].constructor === Object) {
+                for (var elem in conditions[reqs]) {
+                    if (reqs == 'tea') {
+                        text += `- ${conditions[reqs][elem]} ${elem} ${reqs} leaves<br/>`;
+                    }
+                    else if (reqs == 'cups') {
+                        text += `- ${conditions[reqs][elem]} ${reqs} of ${elem} tea<br/>`;
+                    }
+                    else {
+                        text += `- ${conditions[reqs][elem]} ${elem} ${reqs}<br/>`;
+                    };
+                };
+            }
+            else {
+                if (reqs == 'admin') {
+                    text += '- You must be an admin<br/>';
+                }
+                else if (reqs == 'teamade') {
+                    text += `- You must make ${conditions[reqs]} cups of tea<br/>`;
+                }
+                else if (reqs == 'teasold') {
+                    text += `- You must sell ${conditions[reqs]} cups of tea<br/>`;
+                }
+                else {
+                    text += `- ${conditions[reqs]} ${reqs}<br/>`;
+                };
+            };
+        };
+    };
+    text += '<u><b>Reward:</b></u><br/>';
+    if (reward.constructor === Object) {
+        for (var reqs in reward) {
+            if (reward[reqs].constructor === Object) {
+                for (var elem in reward[reqs]) {
+                    if (reqs == 'tea') {
+                        text += `- ${reward[reqs][elem]} ${elem} ${reqs} leaves<br/>`;
+                    }
+                    else if (reqs == 'cups') {
+                        text += `- ${reward[reqs][elem]} ${reqs} of ${elem} tea<br/>`;
+                    }
+                    else {
+                        text += `- ${reward[reqs][elem]} ${elem} ${reqs}<br/>`;
+                    };
+                };
+            }
+            else {
+                if (reqs == 'workers') {
+                    text += `- You get 1 ${reqs.split().slice(0, 6).join()} <br/>`
+                }
+                else {
+                    text += `- ${reward[reqs]} ${reqs}<br/>`;
+                };
+            };
+        };
+    };
+    showGameAlert('Info', text, ['alert'], '180px');
+}
+const getReward = (id) => {
+    var reward = quests[id].reward;
+    quests[id].status = 'rewarded';
+    for (reqs in reward) {
+        if (reward[reqs].constructor === Object) {
+            for (elem in reward[reqs]) {
+                Player[reqs][elem] += reward[reqs][elem];
+            };
+        }
+        else if (reqs == 'workers') {
+            workers.push(reward[reqs]);
+        }
+        else {
+            Player[reqs] += reward[reqs];
+        };
+    };
+    showGameAlert('Reward', 'Reward successfully received!', ['alert'], '165px');
+    if ($('.quests-body').length != 0) {
+        $('.quests-body').empty();
+        showQuests();
+    };
+}
+const showQuests = () => {
+    $('.quests-body').empty();
+    for (var id in quests) {
+        if (quests[id].status == 'not completed') {
+            //$('#quests-body').append(`<p id="quest-id-${quest}">${quests[quest].text}</p>`);
+            if (quests[id].prevQuest != null) {
+                branch = quests[id];
+                idi = id;
+                //TODO: добавить в сохранение
+                while ((branch.prevQuest != null) && (quests[branch.prevQuest].status != 'rewarded')) {
+                    idi = branch.prevQuest;
+                    branch = quests[idi];
+                };
+                if (idi == 0) {
+                    continue;
+                }
+                if ($(`#quest-id-${idi}`).length == 0) {
+                    if ((branch.status == 'completed')) {
+                        $('.quests-body').append(`<p class="qeust-text" id="quest-id-${idi}" style="color: ${Graphics.secondColor}">${branch.text}</p>`);
+                        $('.quests-body').append(`<button class="shop-button" id="reward-${idi}" onclick="getReward(${idi});">Get reward!</button>`);
+                    }
+                    else if (branch.status == 'not completed') {
+                        $('.quests-body').append(`<p class="qeust-text" id="quest-id-${idi}" style="color: ${Graphics.secondColor}">${branch.text}</p>`);
+                        $('.quests-body').append(`<button class="shop-button" id="info-${idi}" onclick="getInfo(${idi});">View info</button>`);
+                    }
+                };
+            }
+            else {
+                if ($(`#quest-id-${id}`).length == 0) {
+                    if ((quests[id].status == 'completed')) {
+                        $('.quests-body').append(`<p class="qeust-text" id="quest-id-${id}" style="color: ${Graphics.secondColor}">${quests[id].text}</p>`);
+                        $('.quests-body').append(`<button class="shop-button" id="reward-${id}" onclick="getReward(${id});">Get reward!</button>`);
+                    }
+                    else if (quests[id].status == 'not completed') {
+                        $('.quests-body').append(`<p class="qeust-text" id="quest-id-${id}" style="color: ${Graphics.secondColor}">${quests[id].text}</p>`);
+                        $('.quests-body').append(`<button class="shop-button" id="info-${id}" onclick="getInfo(${id});">View info</button>`);
+                    };
+                };
+            };
+        }
+        else if (quests[id].status == 'completed') {
+            if ($(`#quest-id-${id}`).length == 0) {
+                $('.quests-body').append(`<p class="qeust-text" id="quest-id-${id}" style="color: ${Graphics.secondColor}">${quests[id].text}</p>`);
+                $('.quests-body').append(`<button class="shop-button" id="reward-${id}" onclick="getReward(${id});">Get reward!</button>`);
+            };
+        };
+    };
+    Graphics.apply();
+}
+const toQuests = () => {
+    if (!achTrig) {
+        $('#where-line').animate({
+            "margin-left": "50%"
+        }, 100)
+        achTrig = true;
+    }
+    $('#player-info').remove();
+    $('.sidebar1').append('<div class="quests-body" style="overflow: scroll;"></div>');
+    showQuests();
+}
+const toPlayerInfo = () => {
+    if (achTrig) {
+        $('#where-line').animate({
+            "margin-left": "0%"
+        }, 100)
+        achTrig = false;
+    }
+    $('.sidebar1').empty();
+    $('.sidebar1').append('<div id="make-tea" onclick="toPlayerInfo()">Player</div>');
+    $('.sidebar1').append('<div id="sell-tea" onclick="toQuests()">Quests</div>');
+    $('.sidebar1').append('<div id="where-line"></div>');
+    $('.sidebar1').append('<div id="player-info" style="overflow:scroll;"></div>');
+    $('#player-info').append(`<h2 style="color:${Graphics.secondColor}" onclick="changeName()" title="Click to change :)">${Player.nickname}</h2>`);
+    $('#player-info').append(`<p style="color:${Graphics.secondColor}">Money: ${Player.money}</p>`)
+    $('#player-info').append(`<p style="color:${Graphics.secondColor}">How much tea did: ${Player.teamade}</p>`)
+    $('#player-info').append(`<p style="color:${Graphics.secondColor}">How muc tea sold: ${Player.teasold}</p>`)
+    $('#player-info').append('<p><ul id="how-many-tea">You have:</ul></p>')
+    for (key in Player.tea) {
+        $('#how-many-tea').append(`<li id="${key}-tea-leaves">${key.charAt(0).toUpperCase() + key.slice(1)} tea leaves: ${Player.tea[key]}</li>`)
+    }
+    for (key in Player.cups) {
+        $('#how-many-tea').append(`<li id="${key}-tea-cups">Cups of ${key} tea: ${Player.cups[key]}</li>`)
+    }
+    Graphics.apply();
+}
 const playerInfo = () => {
     showEffect('.sidebar1','top right');
     setTimeout(() => {
         hideBut();
-        $('.sidebar1').empty();
-        $('.sidebar1').append('<div id="player-info" style="overflow:scroll;"></div>');
-        $('#player-info').append(`<h2 style="color:${Graphics.secondColor}" onclick="changeName()" title="Click to change :)">${Player.nickname}</h2>`);
-        $('#player-info').append(`<p style="color:${Graphics.secondColor}">Money: ${Player.money}</p>`)
-        $('#player-info').append(`<p style="color:${Graphics.secondColor}">How much tea did: ${Player.teamade}</p>`)
-        $('#player-info').append(`<p style="color:${Graphics.secondColor}">How muc tea sold: ${Player.teasold}</p>`)
-        $('#player-info').append('<p><ul id="how-many-tea">You have:</ul></p>')
-        for (key in Player.tea) {
-            $('#how-many-tea').append(`<li id="${key}-tea-leaves">${key.charAt(0).toUpperCase() + key.slice(1)} tea leaves: ${Player.tea[key]}</li>`)
-        }
-        for (key in Player.cups) {
-            $('#how-many-tea').append(`<li id="${key}-tea-cups">Cups of ${key} tea: ${Player.cups[key]}</li>`)
-        }
-        Graphics.apply();
+        toPlayerInfo();
     }, 1500)
 }
 const showGameAlert = (header,text,type,marginLeft) => {
@@ -504,7 +1134,8 @@ const settings = () => {
     setTimeout(() => {
         $('.sidebar1').empty();
         $('.sidebar1').prepend('<div class="settings-info"></div>')
-        $('.settings-info').prepend('<h2 style="margin-top:0px; margin-left:50px;">Settings</h2>')
+        $('.settings-info').prepend('<h2 style="margin-top:0px; margin-left:50px;">Settings</h2>');
+        $('.settings-info').append('<button class="shop-button" onclick="toTutorial()" style="margin-left: 5px;">Take a tutorial!</button>')
         $('.settings-info').append('<p>Color:</p>')
         $('.settings-info').append(`<input id="color" type="range" min="0" max="360" step="1" value="${Graphics.hue}" oninput="chn()">`)
         $('.settings-info').append('<p>Saturation:</p>')
@@ -522,9 +1153,13 @@ const settings = () => {
         $('.settings-info').append('<p>BG alpha:</p>')
         $('.settings-info').append(`<input id="bg-alpha" type="range" min="0" max="100" step="1" value="${Graphics.bg_alp}" oninput="chn()">`)
         $('.settings-info').append('<p>Low quality:</p>')
-        $('.settings-info').append(`<div class="checkbox" onclick="check()" data-content="non"></div>`)
+        $('.settings-info').append(`<div class="checkbox lowq" onclick="check()" data-content="non"></div>`)
+        $('.settings-info').append('<p>Autosave:</p>')
+        $('.settings-info').append(`<div class="checkbox savech" onclick="autoSave()" data-content="non"></div>`)
         Graphics.apply();
         Graphics.applyToSliders();
+        autoSave(0);
+        check(0);
         if ($('#save').length == 0) {
             $('#settings').after('<button id="save" onclick="save();">Save</button>')
             $('#save').after('<button id="load" onclick="load();">Load</button>')
@@ -543,6 +1178,48 @@ const settings = () => {
         Graphics.apply();
         Graphics.applyToSliders();
     },1000);
+}
+var aut = 0;
+const autoSave = (state = 1) => {
+    if (state == 0) {
+        if (Player.autoSave) {
+            $('.savech').animate({
+                "border-width": "8px",
+                "width": "3px",
+                "height": "3px"
+            }, 0)
+        }
+        else if (!Player.autoSave) {
+            $('.savech').animate({
+                "border-width": "2px",
+                "width": "15px",
+                "height": "15px"
+            }, 0)
+        }
+    }
+    else {
+        if (!Player.autoSave) {
+            $('.savech').animate({
+                "border-width": "8px",
+                "width": "3px",
+                "height": "3px"
+            }, 250)
+            aut = setTimeout(function sv() {
+                save();
+                aut = setTimeout(sv, 1000);
+            }, 1000);
+            Player.autoSave = true;
+        }
+        else if (Player.autoSave) {
+            $('.savech').animate({
+                "border-width": "2px",
+                "width": "15px",
+                "height": "15px"
+            }, 250)
+            clearTimeout(aut);
+            Player.autoSave = false;
+        }
+    }
 }
 var data = {
     plr: null,
@@ -563,12 +1240,16 @@ const save = () => {
         tmChg: JSON.stringify(timerChange),
         tmGtr: JSON.stringify(timerGetter),
         tmr: JSON.stringify(timer),
-        tpTea: JSON.stringify(typesTea)
+        tpTea: JSON.stringify(typesTea),
+        qst: JSON.stringify(quests),
+        wks: JSON.stringify(workers)
     }
     for (var key in data) {
         localStorage.setItem(key, data[key]);
     }
-    showGameAlert('Saved successfully!', '', ['alert'], '75px');
+    if (!Player.autoSave) {
+        showGameAlert('Saved successfully!', '', ['alert'], '75px');
+    }
 }
 const load = () => {
     for (key in data) {
@@ -587,30 +1268,59 @@ const load = () => {
     timerGetter = JSON.parse(localStorage.getItem('tmGtr'));
     timer = JSON.parse(localStorage.getItem('tmr'));
     typesTea = JSON.parse(localStorage.getItem('tpTea'));
+    quests = JSON.parse(localStorege.getItem('qst'));
+    workers = JSON.parse(localStorege.getItem('wks'));
+    if (Player.autoSave) {
+        aut = setTimeout(function sv() {
+            save();
+            aut = setTimeout(sv, 1000);
+        }, 1000);
+    }
+    if (Player.admin) {
+        clearTimeout(timer.checkTimer);
+    }
     Graphics.apply();
     Graphics.applyToSliders();
     showGameAlert('Loaded successfully!', '', ['alert'], '75px');
 }
-const check = () => {
-    if (Graphics.lowQuality) {
-        $('.checkbox').animate({
-            "border-width": "2px",
-            "width": "15px",
-            "height": "15px"
-        }, 250)
-        Graphics.lowQuality = false;
-        Graphics.apply();
-        Graphics.applyToSliders()
+const check = (state = 1) => {
+    if (state == 0) {
+        if (Graphics.lowQuality) {
+            $('.lowq').animate({
+                "border-width": "8px",
+                "width": "3px",
+                "height": "3px"
+            }, 0)
+        }
+        else if (!Graphics.lowQuality) {
+            $('.lowq').animate({
+                "border-width": "2px",
+                "width": "15px",
+                "height": "15px"
+            }, 0)
+        }
     }
-    else if (!Graphics.lowQuality) {
-        $('.checkbox').animate({
-            "border-width": "8px",
-            "width": "3px",
-            "height": "3px"
-        }, 250)
-        Graphics.lowQuality = true;
-        Graphics.apply();
-        Graphics.applyToSliders()
+    else {
+        if (Graphics.lowQuality) {
+            $('.lowq').animate({
+                "border-width": "2px",
+                "width": "15px",
+                "height": "15px"
+            }, 250)
+            Graphics.lowQuality = false;
+            Graphics.apply();
+            Graphics.applyToSliders()
+        }
+        else if (!Graphics.lowQuality) {
+            $('.lowq').animate({
+                "border-width": "8px",
+                "width": "3px",
+                "height": "3px"
+            }, 250)
+            Graphics.lowQuality = true;
+            Graphics.apply();
+            Graphics.applyToSliders()
+        }
     }
 }
 const chn = () => {
@@ -658,27 +1368,85 @@ const setTea = (item, quan) => {
         $(`#by-${item}-tea-button`).text(`Buy for ${Shop.price[`${item}`]*$(`#${item}Tea`).val()}`);
     }
 }
+var wsTrig = false;
+const showWorkers = () => {
+    // $('.workers-body').remove();
+    // $('.sidebar1').append('<div class="workers-body" style="overflow: scroll;"></div>');
+    $('.sidebar1').empty();
+    $('.sidebar1').append('<div id="make-tea" onclick="toShop()">Shop</div>');
+    $('.sidebar1').append('<div id="sell-tea" onclick="toWorkers()">Workers</div>');
+    $('.sidebar1').append('<div id="where-line"></div>');
+    if (!wsTrig) {
+        $('#where-line').animate({
+            "margin-left": "50%"
+        }, 100)
+        wsTrig = true;
+    }
+    else {
+        $('#where-line').css({
+            "margin-left": "50%"
+        });
+    };
+    $('.sidebar1').append('<div class="workers-body" style="overflow: scroll;"></div>');
+    for (var i = 1; i < workers.length; i++) {
+        $('.workers-body').append(`<p id="worker-${i}" style="color: ${Graphics.secondColor}">Worker ${i}:</p>`);
+        $('.workers-body').append(`<p id="worker-${i}-level" style="color: ${Graphics.secondColor}">---> Level: ${workers[i].level}</p>`);
+        $('.workers-body').append(`<p id="worker-${i}-delay" style="color: ${Graphics.secondColor}">---> Time to make 1 cup: ${(workers[i].delay/1000)} sec.</p>`);
+        if (workers[i].delay == 250) {
+            $('.workers-body').append(`<button class="shop-button-disabled">Max level!</button>`);
+        }
+        else {
+            $('.workers-body').append(`<button class="shop-button" onclick="workerUpgrade(${i})">Upgrade for ${workers[i].moneyToNextLevel}$</button>`);
+        };
+    };
+    if (workers.length == 1) {
+        $('.workers-body').append(`<p id="not-workers" style="color: ${Graphics.secondColor}"><b>You haven't workers!</b></p>`);
+    }
+    Graphics.apply();
+}
+const toWorkers = () => {
+    $('.shop-body').remove();
+    $('.sidebar1').append('<div class="workers-body" style="overflow: scroll;"></div>');
+    showWorkers();
+}
+const toShop = () => {
+    $('.sidebar1').empty();
+    $('.sidebar1').append('<div id="make-tea" onclick="toShop()">Shop</div>');
+    $('.sidebar1').append('<div id="sell-tea" onclick="toWorkers()">Workers</div>');
+    $('.sidebar1').append('<div id="where-line"></div>');
+    if (wsTrig) {
+        $('#where-line').animate({
+            "margin-left": "0%"
+        }, 100)
+        wsTrig = false;
+    }
+    else {
+        $('#where-line').css({
+            "margin-left": "0%"
+        });
+    };
+    $('.sidebar1').append('<div class="shop-body"></div>');
+    $('.shop-body').append('<p><u><strong id="leaves">Leaves</strong></u></p>');
+    for (var key in Shop.tea) {
+        if (Shop.tea[key] <= 0) {
+            $('.shop-body').append(`<p id="price-${key}-tea">${key.charAt(0).toUpperCase() + key.slice(1)}: 0</p>`);
+            $('.shop-body').append(`<button class="shop-button-disabled" id="by-${key}-tea-button">Out of stock!</button>`)
+        }
+        else {
+            $('.shop-body').append(`<input type="range" oninput="changePrice('${key}')" id="${key}Tea" min="0" max="${Shop.tea[key]}" value="0" step="1">`);
+            $(`#${key}Tea`).before(`<p id="price-${key}-tea" onclick="enterTea('${key}')" title="Click to change on custom">${key.charAt(0).toUpperCase() + key.slice(1)}: ${$(`#${key}Tea`).val()}</p>`);
+            $('.shop-body').append(`<button onclick="buy('${key}')" class="shop-button" id="by-${key}-tea-button">Buy for ${Shop.price[key]*$(`#${key}Tea`).val()}</button>`);
+        };
+    };
+}
 const shop = () => {
     showEffect('.sidebar1', 'top')
     setTimeout(() => {
-        $('.sidebar1').empty()
-        $('.sidebar1').append('<div class="shop-body"></div>')
-        $('.shop-body').append('<h2>Shop</h2>')
-        $('.shop-body').append('<p><u><strong id="leaves">Leaves</strong></u></p>')
-        for (var key in Shop.tea) {
-            if (Shop.tea[key] <= 0) {
-                $('.shop-body').append(`<p id="price-${key}-tea">${key.charAt(0).toUpperCase() + key.slice(1)}: 0</p>`);
-                $('.shop-body').append(`<button class="shop-button-disabled" id="by-${key}-tea-button">Out of stock!</button>`)
-            }
-            else {
-                $('.shop-body').append(`<input type="range" oninput="changePrice('${key}')" id="${key}Tea" min="0" max="${Shop.tea[key]}" value="0" step="1">`)
-                $(`#${key}Tea`).before(`<p id="price-${key}-tea" onclick="enterTea('${key}')" title="Click to change on custom">${key.charAt(0).toUpperCase() + key.slice(1)}: ${$(`#${key}Tea`).val()}</p>`);
-                $('.shop-body').append(`<button onclick="buy('${key}')" class="shop-button" id="by-${key}-tea-button">Buy for ${Shop.price[key]*$(`#${key}Tea`).val()}</button>`)
-            }
-        }
-        Graphics.apply();
-        Graphics.applyToSliders()
+        
+        toShop();
     }, 1500)
+    Graphics.apply();
+    Graphics.applyToSliders()
 }
 
 const ChangeTeaPrise = (item) => {
@@ -789,6 +1557,8 @@ const makeTea = () => {
         Graphics.apply();
     }, 1500)
 }
+var ad = 1;
+var cupsInProc = 0;
 const makeIt = (item) => {
     if (Player.tea[item] - $(`#select-cups-of-${item}-tea`).val()*3 < 0) {
         showGameAlert('!','Not enought tea leaves!<br /> You need 3 tea leaves to make 1 cup of tea!',['alert'],'200px');
@@ -799,22 +1569,46 @@ const makeIt = (item) => {
     else {
         teaInProgress = true;
         var j = $(`#select-cups-of-${item}-tea`).val();
-        showGameAlert('!',`Making tea... Please wait ${2*j} seconds to make ${j} cup(-s). You can't make tea yet :)`,['alert'],'200px')
+        showGameAlert('!',`Making tea... Please wait ${2*j} seconds to make ${j} cup(-s). You can't make tea yet :)<br/>
+            <progress max="${2*j}" value="0"></progress>`,['alert'],'200px');
+        cupsInProc = +j;
         sellTrigger = true;
-        toMake()
+        toMake();
         var time = 2000*j;
-        setTimeout(act, time, item, j);
+        timer.makeTimer = setTimeout(function ddt() {
+            if (ad <= +j) {
+                act(item, ad);
+                ad++;
+                timer.makeTimer = setTimeout(ddt, 2000);
+            }
+            else {
+                teaInProgress = false;
+                ad = 1;
+                if ($('.game-alert').length != 0) {
+                    post();
+                    toMake();
+                }
+            }
+        }, 2000);
     }
 }
 const act = (item, quant) => {
-    teaInProgress = false;
-    Player.tea[item] -= quant*3;
-    Player.cups[item] += +quant;
-    Player.teamade += +quant;
-    if ($(`#select-cups-of-${item}-tea`).length != 0) {
-        $(`#select-cups-of-${item}-tea`).val('0');
-        sellTrigger = false;
-        toMake();
+    if (Player.tea[item] >= 3) {
+        Player.tea[item] -= 3;
+        Player.cups[item] += 1;
+        Player.teamade += 1;
+        if ($(`#select-cups-of-${item}-tea`).length != 0) {
+            $(`#select-cups-of-${item}-tea`).val('0');
+            sellTrigger = false;
+            toMake();
+        }
+        if ($('progress').length != 0) {
+            $('progress').val(quant*2);
+            $('#alert-text-place').html(`Making tea... Please wait ${2*(cupsInProc-ad)} seconds to make ${cupsInProc-ad} cup(-s). You can't make tea yet :)<br/>
+            <progress max="${cupsInProc}" value="${ad}"></progress>`);
+            Graphics.apply();
+            Graphics.applyToSliders();
+        }
     }
 }
 const changeSlectedCups = (item) => {
@@ -822,6 +1616,15 @@ const changeSlectedCups = (item) => {
     $(`#make-${item}-tea-button`).text(`Make ${$(`#select-cups-of-${item}-tea`).val()} cups`)
 }
 var sellTrigger = false;
+const remainTime = () => {
+    if (teaInProgress) {
+        showGameAlert('!', `Making tea... Please wait ${2*(cupsInProc-ad)} seconds to make ${cupsInProc-ad} cup(-s). You can't make tea yet :)<br/>
+        <progress max="${cupsInProc}" value="${ad}"></progress>`, ['alert'], '200px')
+    }
+    else {
+        showGameAlert('Tea is ready!', '', ['alert'], '125px')
+    }
+}
 const toMake = () => {
     if (sellTrigger) {
         $('#where-line').animate({
@@ -844,7 +1647,7 @@ const toMake = () => {
         }
         if (teaInProgress) {
             setTimeout(() => {
-                $('.make-tea-body').prepend('<div class="make-tea-block"></div>')
+                $('.make-tea-body').prepend('<div class="make-tea-block" onclick="remainTime();"></div>')
                 $('.make-tea-block').animate({
                     "opacity": "1",
                     "margin": "-10px 0px 0px -5px",
@@ -1020,7 +1823,6 @@ const getMessage = (num) => {
             return "Ban system is disabled!"
     }
 }
-Player.admin = false;
 function isAdmin() {
     var verif = prompt('Enter password');
     var rs = checkCrypt(encrypt(verif, '$Kvzd,]G5k;fG-3D`Gu8P03k'))
