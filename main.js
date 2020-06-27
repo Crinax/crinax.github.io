@@ -643,6 +643,8 @@ const changeLog = () => {
         - Improved tutorial<br/>
         - Added quests<br/>
         - Added workers<br/>
+        <u><b>v2.1:</b></u><br/>
+        - Graphics bug fixed
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -1268,8 +1270,8 @@ const load = () => {
     timerGetter = JSON.parse(localStorage.getItem('tmGtr'));
     timer = JSON.parse(localStorage.getItem('tmr'));
     typesTea = JSON.parse(localStorage.getItem('tpTea'));
-    quests = JSON.parse(localStorege.getItem('qst'));
-    workers = JSON.parse(localStorege.getItem('wks'));
+    quests = JSON.parse(localStorage.getItem('qst'));
+    workers = JSON.parse(localStorage.getItem('wks'));
     if (Player.autoSave) {
         aut = setTimeout(function sv() {
             save();
@@ -1438,15 +1440,14 @@ const toShop = () => {
             $('.shop-body').append(`<button onclick="buy('${key}')" class="shop-button" id="by-${key}-tea-button">Buy for ${Shop.price[key]*$(`#${key}Tea`).val()}</button>`);
         };
     };
+    Graphics.apply();
+    Graphics.applyToSliders();
 }
 const shop = () => {
     showEffect('.sidebar1', 'top')
     setTimeout(() => {
-        
         toShop();
     }, 1500)
-    Graphics.apply();
-    Graphics.applyToSliders()
 }
 
 const ChangeTeaPrise = (item) => {
