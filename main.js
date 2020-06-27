@@ -451,7 +451,7 @@ const tutorial = () => {
             case 5:
                 setTimeout(() => {
                     tutorialNum++;
-                    showGameAlert('Tutorial',`Workers make tea in your place if you have tea leaves, even if you can't make them yourself.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
+                    showGameAlert('Tutorial',`Workers make tea in your place if you have tea leaves, even if you can't make them yourself. But they take 1% to 50% of the money from the sale of cups of tea (depending on the amount of tea sold)<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
                 }, 250);
                 break;
             case 6:
@@ -644,7 +644,11 @@ const changeLog = () => {
         - Added quests<br/>
         - Added workers<br/>
         <u><b>v2.1:</b></u><br/>
-        - Graphics bug fixed
+        - Graphics bug fixed</br>
+        <u><b>v2.2:</b></u><br/>
+        - Load bug fixed<br/>
+        - Quests bug fixed<br/>
+        - Employees take 1% to 50% of the money from the sale of cups of tea (depending on the amount of tea sold)<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -877,17 +881,22 @@ const getInfo = (id) => {
     if (reward.constructor === Object) {
         for (var reqs in reward) {
             if (reward[reqs].constructor === Object) {
-                for (var elem in reward[reqs]) {
-                    if (reqs == 'tea') {
-                        text += `- ${reward[reqs][elem]} ${elem} ${reqs} leaves<br/>`;
-                    }
-                    else if (reqs == 'cups') {
-                        text += `- ${reward[reqs][elem]} ${reqs} of ${elem} tea<br/>`;
-                    }
-                    else {
-                        text += `- ${reward[reqs][elem]} ${elem} ${reqs}<br/>`;
+                if (reqs == 'workers') {
+                    text += `- You get 1 ${reqs.split().slice(0, 6).join()} <br/>`
+                }
+                else {
+                    for (var elem in reward[reqs]) {
+                        if (reqs == 'tea') {
+                            text += `- ${reward[reqs][elem]} ${elem} ${reqs} leaves<br/>`;
+                        }
+                        else if (reqs == 'cups') {
+                            text += `- ${reward[reqs][elem]} ${reqs} of ${elem} tea<br/>`;
+                        }
+                        else {
+                            text += `- ${reward[reqs][elem]} ${elem} ${reqs}<br/>`;
+                        };
                     };
-                };
+                }
             }
             else {
                 if (reqs == 'workers') {
@@ -906,8 +915,13 @@ const getReward = (id) => {
     quests[id].status = 'rewarded';
     for (reqs in reward) {
         if (reward[reqs].constructor === Object) {
-            for (elem in reward[reqs]) {
-                Player[reqs][elem] += reward[reqs][elem];
+            if (reqs == 'workers') {
+                workers.push(reward[reqs]);
+            }
+            else {
+                for (elem in reward[reqs]) {
+                    Player[reqs][elem] += reward[reqs][elem];
+                };
             };
         }
         else if (reqs == 'workers') {
@@ -1272,6 +1286,9 @@ const load = () => {
     typesTea = JSON.parse(localStorage.getItem('tpTea'));
     quests = JSON.parse(localStorage.getItem('qst'));
     workers = JSON.parse(localStorage.getItem('wks'));
+    for (var i = 1; i < workers.length; i++) {
+        workers[i].timer = 0;
+    }
     if (Player.autoSave) {
         aut = setTimeout(function sv() {
             save();
@@ -1686,7 +1703,17 @@ const toSell = () => {
 }
 const changeSlectedCupsToSell = (item) => {
     $(`#selected-to-sell-cups-of-${item}-tea`).text(`Cups of ${item} tea: ${$(`#select-to-sell-cups-of-${item}-tea`).val()}`)
-    $(`#sell-${item}-tea-button`).text(`Sell for ${$(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5))}$`);
+    var income = $(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5));
+    var strIncome = String(income);
+    $(`#sell-${item}-tea-button`).text(`Sell for ${income}$`);
+    if (workers.length > 1) {
+        if (strIncome.length < 11) {
+            $(`#sell-${item}-tea-button`).text(`Sell for ${income - Math.floor(income*(0.55-0.05*strIncome.length))}$`);
+        }
+        else {
+            $(`#sell-${item}-tea-button`).text(`Sell for ${income - Math.floor(income*0.1)}$`);
+        };
+    };
 }
 const sellIt = (item) => {
     if ($(`#select-to-sell-cups-of-${item}-tea`).val() == 0){
@@ -1696,6 +1723,16 @@ const sellIt = (item) => {
         Player.cups[item] -= +$(`#select-to-sell-cups-of-${item}-tea`).val();
         Player.teasold += +$(`#select-to-sell-cups-of-${item}-tea`).val();
         Player.money += $(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5));
+        if (workers.length > 1) {
+            var income = $(`#select-to-sell-cups-of-${item}-tea`).val()*(Math.floor(Shop.price[item] * 5));
+            var strIncome = String(income);
+            if (strIncome.length < 11) {
+                Player.money -= Math.floor(income*(0.55-0.05*strIncome.length));
+            }
+            else {
+                Player.money -= Math.floor(income*0.1);
+            };
+        };
         sellTrigger = false;
         toSell();
     }
