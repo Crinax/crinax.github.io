@@ -16,6 +16,11 @@
 *::-webkit-scrollbar {
     width: 0;
 }
+html {
+    height: 679px;
+    width: 512px;
+    overflow: hidden;
+}
 body {
     height: 679px;
     width: 512px;

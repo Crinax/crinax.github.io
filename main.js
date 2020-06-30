@@ -22,19 +22,341 @@ var Player = {
         puer: 0,
         oolong: 0
     },
+    workers: [null],
+    quests: {
+        1: {
+            prevQuest: null,
+            text: 'Beginner teamaker',
+            conditions: {
+                teamade: 5
+            },
+            reward: {
+                tea: {
+                    black: 10
+                },
+                money: 50
+            },
+            status: 'not completed',
+            nextQuest: 2
+        },
+        2: {
+            prevQuest: 1,
+            text: 'Intermediate teamaker',
+            conditions: {
+                teamade: 50
+            },
+            reward: {
+                tea: {
+                    black: 100,
+                    green: 50,
+                    yellow: 25
+                },
+                cups: {
+                    black: 10
+                },
+                money: 750
+            },
+            status: 'not completed',
+            nextQuest: 3
+        },
+        3: {
+            prevQuest: 2,
+            text: 'Advanced teamaker',
+            conditions: {
+                teamade: 250
+            },
+            reward: {
+                tea: {
+                    black: 1000,
+                    green: 250,
+                    yellow: 100,
+                    red: 50,
+                    white: 50
+                },
+                cups: {
+                    red: 5,
+                    white: 5
+                },
+                money: 5000
+            },
+            status: 'not completed',
+            nextQuest: 4
+        },
+        4: {
+            prevQuest: 3,
+            text: 'Expert teamaker',
+            conditions: {
+                teamade: 750
+            },
+            reward: {
+                tea: {
+                    red: 100,
+                    white: 100
+                },
+                cups: {
+                    red: 25,
+                    white: 25
+                },
+                money: 10000
+            },
+            status: 'not completed',
+            nextQuest: 5
+        },
+        5: {
+            prevQuest: 4,
+            text: 'Tea master',
+            conditions: {
+                teamade: 10000
+            },
+            reward: {
+                tea: {
+                    black: 5000,
+                    green: 4000,
+                    yellow: 3000,
+                    red: 2000,
+                    white: 1000,
+                    puer: 750,
+                    oolong: 500
+                },
+                cups: {
+                    black: 50,
+                    green: 50,
+                    yellow: 50,
+                    red: 50,
+                    white: 50,
+                    puer: 10,
+                    oolong: 10
+                },
+                money: 1000000
+            },
+            status: 'not completed',
+            nextQuest: null
+        },
+        6: {
+            prevQuest: null,
+            text: 'Beginner tea seller',
+            conditions: {
+                teasold: 50
+            },
+            reward: {
+                cups: {
+                    green: 1
+                },
+                money: 1500
+            },
+            status: 'not completed',
+            nextQuest: 7
+        },
+        7: {
+            prevQuest: 6,
+            text: 'Intermediate tea seller',
+            conditions: {
+                teasold: 750
+            },
+            reward: {
+                cups: {
+                    puer: 1
+                },
+                money: 10000
+            },
+            status: 'not completed',
+            nextQuest: 8
+        },
+        8: {
+            prevQuest: 7,
+            text: 'Advanced tea seller',
+            conditions: {
+                teasold: 5000
+            },
+            reward: {
+                cups: {
+                    puer: 25,
+                    oolong: 10
+                },
+                money: 500000
+            },
+            status: 'not completed',
+            nextQuest: 9
+        },
+        9: {
+            prevQuest: 8,
+            text: 'Expert tea seller',
+            conditions: {
+                teasold: 25000
+            },
+            reward: {
+                cups: {
+                    oolong: 25
+                },
+                money: 10000000
+            },
+            status: 'not completed',
+            nextQuest: null
+        },
+        10: {
+            prevQuest: null,
+            text: 'Small businessman',
+            conditions: {
+                money: 100000
+            },
+            reward: {
+                money: 100000,
+                workers: new Worker()
+            },
+            status: 'not completed',
+            nextQuest: 11
+        },
+        11: {
+            prevQuest: 10,
+            text: 'Middle businessman',
+            conditions: {
+                money: 10000000
+            },
+            reward: {
+                money: 10000000,
+                workers: new Worker()
+            },
+            status: 'not completed',
+            nextQuest: 12
+        },
+        12: {
+            prevQuest: 11,
+            text: 'Major businessman',
+            conditions: {
+                money: 100000000
+            },
+            reward: {
+                money: 100000000,
+                workers: new Worker()
+            },
+            status: 'not completed',
+            nextQuest: null
+        },
+        13: {
+            prevQuest: null,
+            text: `The only thing I'd like to know is, what is color?`,
+            conditions: {
+                colorChanged: true
+            },
+            reward: {
+                tea: {
+                    black: 5
+                },
+                money: 500
+            },
+            status: 'not completed',
+            nextQuest: null
+        },
+        14: {
+            prevQuest: null,
+            text: 'Junior workers',
+            conditions: {
+                workers: {
+                    level: 3
+                }
+            },
+            reward: {
+                money: 200000,
+                cups: {
+                    yellow: 100
+                }
+            },
+            status: 'not completed',
+            nextQuest: 15
+        },
+        15: {
+            prevQuest: 14,
+            text: 'Middle workers',
+            conditions: {
+                workers: {
+                    level: 6
+                }
+            },
+            reward: {
+                money: 1000000,
+                cups: {
+                    white: 100
+                }
+            },
+            status: 'not completed',
+            nextQuest: 16
+        },
+        16: {
+            prevQuest: 15,
+            text: 'Senior workers',
+            conditions: {
+                workers: {
+                    level: 12
+                }
+            },
+            reward: {
+                money: 5000000,
+                cups: {
+                    puer: 100
+                }
+            },
+            status: 'not completed',
+            nextQuest: null
+        },
+        17: {
+            prevQuest: null,
+            text: 'Tutorial master',
+            conditions: {
+                tutorialCompleted: true
+            },
+            reward: {
+                tea: {
+                    black: 10
+                }
+            },
+            status: 'not completed',
+            nextQuest: null
+        },
+        18: {
+            prevQuest: null,
+            text: 'I am admin!',
+            conditions: {
+                admin: true
+            },
+            reward: {
+
+            },
+            status: 'not completed',
+            nextQuest: null
+        }
+    },
+    colorChanged: false,
+    tutorialCompleted: false,
     completedQuests: 0,
     autoSave: false,
     admin: false
-}
+};
+var quests = Player.quests;
+var workers = Player.workers;
+/*
+Quest template
+    : {
+            prevQuest: ,
+            text: '',
+            conditions: {
+
+            },
+            reward: {
+
+            },
+            status: 'not completed',
+            nextQuest: 
+        }
+*/
 var Shop = {
     tea: {
-        black: 1000000,
-        green: 1000000,
-        yellow: 1000000,
-        red: 100000,
-        white: 100000,
-        puer: 10000,
-        oolong: 1000,
+        black:  5000,
+        green:  5000,
+        yellow: 5000,
+        red:    1000,
+        white:  1000,
+        puer:   500,
+        oolong: 100,
     },
     price: {
         black: 10,
@@ -46,250 +368,13 @@ var Shop = {
         oolong: 15000
     }
 }
-var quests = {
-    1: {
-        prevQuest: null,
-        text: 'Beginner teamaker',
-        conditions: {
-            teamade: 5
-        },
-        reward: {
-            tea: {
-                black: 10
-            },
-            money: 50
-        },
-        status: 'not completed',
-        nextQuest: 2
-    },
-    2: {
-        prevQuest: 1,
-        text: 'Intermediate teamaker',
-        conditions: {
-            teamade: 50
-        },
-        reward: {
-            tea: {
-                black: 100,
-                green: 50,
-                yellow: 25
-            },
-            cups: {
-                black: 10
-            },
-            money: 750
-        },
-        status: 'not completed',
-        nextQuest: 3
-    },
-    3: {
-        prevQuest: 2,
-        text: 'Advanced teamaker',
-        conditions: {
-            teamade: 250
-        },
-        reward: {
-            tea: {
-                black: 1000,
-                green: 250,
-                yellow: 100,
-                red: 50,
-                white: 50
-            },
-            cups: {
-                red: 5,
-                white: 5
-            },
-            money: 5000
-        },
-        status: 'not completed',
-        nextQuest: 4
-    },
-    4: {
-        prevQuest: 3,
-        text: 'Expert teamaker',
-        conditions: {
-            teamade: 750
-        },
-        reward: {
-            tea: {
-                red: 100,
-                white: 100
-            },
-            cups: {
-                red: 25,
-                white: 25
-            },
-            money: 10000
-        },
-        status: 'not completed',
-        nextQuest: 5
-    },
-    5: {
-        prevQuest: 4,
-        text: 'Tea master',
-        conditions: {
-            teamade: 10000
-        },
-        reward: {
-            tea: {
-                black: 5000,
-                green: 4000,
-                yellow: 3000,
-                red: 2000,
-                white: 1000,
-                puer: 750,
-                oolong: 500
-            },
-            cups: {
-                black: 50,
-                green: 50,
-                yellow: 50,
-                red: 50,
-                white: 50,
-                puer: 10,
-                oolong: 10
-            },
-            money: 1000000
-        },
-        status: 'not completed',
-        nextQuest: null
-    },
-    6: {
-        prevQuest: null,
-        text: 'Beginner tea seller',
-        conditions: {
-            teasold: 50
-        },
-        reward: {
-            cups: {
-                green: 1
-            },
-            money: 1500
-        },
-        status: 'not completed',
-        nextQuest: 7
-    },
-    7: {
-        prevQuest: 6,
-        text: 'Intermediate tea seller',
-        conditions: {
-            teasold: 750
-        },
-        reward: {
-            cups: {
-                puer: 1
-            },
-            money: 10000
-        },
-        status: 'not completed',
-        nextQuest: 8
-    },
-    8: {
-        prevQuest: 7,
-        text: 'Advanced tea seller',
-        conditions: {
-            teasold: 5000
-        },
-        reward: {
-            cups: {
-                puer: 25,
-                oolong: 10
-            },
-            money: 500000
-        },
-        status: 'not completed',
-        nextQuest: 9
-    },
-    9: {
-        prevQuest: 8,
-        text: 'Expert tea seller',
-        conditions: {
-            teasold: 25000
-        },
-        reward: {
-            cups: {
-                oolong: 25
-            },
-            money: 10000000
-        },
-        status: 'not completed',
-        nextQuest: null
-    },
-    10: {
-        prevQuest: null,
-        text: 'Small businessman',
-        conditions: {
-            money: 100000
-        },
-        reward: {
-            money: 100000,
-            workers: new Worker()
-        },
-        status: 'not completed',
-        nextQuest: 11
-    },
-    11: {
-        prevQuest: 10,
-        text: 'Middle businessman',
-        conditions: {
-            money: 10000000
-        },
-        reward: {
-            money: 10000000,
-            workers: new Worker()
-        },
-        status: 'not completed',
-        nextQuest: 12
-    },
-    12: {
-        prevQuest: 11,
-        text: 'Major businessman',
-        conditions: {
-            money: 100000000
-        },
-        reward: {
-            money: 100000000,
-            workers: new Worker()
-        },
-        status: 'not completed',
-        nextQuest: null
-    },
-    13: {
-        prevQuest: null,
-        text: 'I am admin!',
-        conditions: {
-            admin: true
-        },
-        reward: {
-
-        },
-        status: 'not completed',
-        nextQuest: null
-    }
-};
-/*
-Quest template
-: {
-        prevQuest: ,
-        text: '',
-        conditions: {
-
-        },
-        reward: {
-
-        },
-        status: 'not completed',
-        nextQuest: 
-    }
-*/
-var workers = [null]
-function Worker(level = 1, moneyToNextLevel = 100000, moneyInc = 50000, delay = 3000, timer = 0) {
+function Worker(level = 1, moneyToNextLevel = 100000, moneyInc = 50000, delay = 3000, timer = 0, tea = 'black') {
     this.level = level; //1
     this.moneyToNextLevel = moneyToNextLevel; //100000
     this.moneyInc = moneyInc; //50000
     this.delay = delay; //2000
     this.timer = timer; //0
+    this.tea = tea;
 }
 var Graphics = {
     firstColor: "#222",
@@ -414,108 +499,110 @@ const toTutorial = () => {
 }
 const tutorial = () => {
     post();
-    setTimeout(() => {
-        switch (tutorialNum) {
-            /*
-            case :
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            */
-            case 1:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','You can make or sell cups of tea in the "To make tea!" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 2:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','You need 3 tea leaves to make 1 cup of tea<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 3:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','It takes 2 seconds to prepare one cup of tea<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 4:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial',`While making tea you can't make another tea, but you can sell tea mugs.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 5:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial',`Workers make tea in your place if you have tea leaves, even if you can't make them yourself. But they take 1% to 50% of the money from the sale of cups of tea (depending on the amount of tea sold)<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 6:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','You can get workers by performing quests related to the recruitment of a certain amount of money<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 7:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','You can see your statistics and change nick in the "Player" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 8:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','Also in this section you can see information about quests and pick up the award.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 9:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','You can buy tea leaves in the "Shop" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 10:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','Click on the name of the tea to enter the exact quantity.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 11:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','Also in this section you can improve your workers. Originally they make 1 mug in 2 seconds, but this speed can be increased to 1 mug in 0.25 seconds<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 12:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','You can customize the game for yourself in the "Settings" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 13:
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial',`In this section, you can:<br/>
-                    - Save and load progress<br/>
-                    - Go through the tutorial again<br/>
-                    - Change the color of elements<br/>
-                    - Enable or disable low graphics<br/>
-                    - Enable or disable autosave<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250);
-                break;
-            case 14:
-                post();
-                setTimeout(() => {
-                    tutorialNum++;
-                    showGameAlert('Tutorial','Report me about all the bugs<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
-                }, 250)
-                break;
-        }
-    }, 250);
+    switch (tutorialNum) {
+        /*
+        case :
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        */
+        case 1:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','You can make or sell cups of tea in the "To make tea!" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 2:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','You need 3 tea leaves to make 1 cup of tea<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 3:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','It takes 2 seconds to prepare one cup of tea<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 4:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial',`While making tea you can't make another tea, but you can sell tea mugs.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 5:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial',`Workers make tea in your place if you have tea leaves, even if you can't make them yourself. But they take 1% to 50% of the money from the sale of cups of tea (depending on the amount of tea sold)<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 6:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','You can get workers by performing quests related to the recruitment of a certain amount of money<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 7:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','You can see your statistics and change nick in the "Player" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 8:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','Also in this section you can see information about quests and pick up the award.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 9:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','You can buy tea leaves in the "Shop" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 10:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','Click on the name of the tea to enter the exact quantity.<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 11:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','Also in this section you can improve your workers. Originally they make 1 mug in 2 seconds, but this speed can be increased to 1 mug in 0.25 seconds<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 12:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','You can customize the game for yourself in the "Settings" section<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 13:
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial',`In this section, you can:<br/>
+                - Save and load progress<br/>
+                - Go through the tutorial again<br/>
+                - Change the color of elements<br/>
+                - Enable or disable low graphics<br/>
+                - Enable or disable autosave<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>`,['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250);
+            break;
+        case 14:
+            post();
+            setTimeout(() => {
+                tutorialNum++;
+                showGameAlert('Tutorial','Report me about all the bugs<br/><br/><a onclick="post()">--> Click to skip tutorial <--</a>',['alert','tutorial()','tutorial()','tutorial()'],'150px');
+            }, 250)
+            break;
+        case 15:
+            post();
+            Player.tutorialCompleted = true;
+            break;
+    }
 }
 //end 
 const active = () => {
@@ -562,7 +649,6 @@ const ddchk = () => {
     }, randomInteger(50000, 120000));
     timer.workers = setTimeout(ldc = () => {
         for (var i = 1; i < workers.length; i++) {
-            // console.log(i);
             setTimeout(workerGetCup(i), 1);
         };
         timer.workers = setTimeout(ldc, 1);
@@ -576,17 +662,24 @@ const workerGetCup = (id) => {
             break;
         };
     };
+    if (Player.tea[workers[id].tea] < 3) {
+        clearTimeout(workers[id].timer);
+        workers[id].timer = 0;
+    }
     if (trigWorker && workers[id].timer == 0) {
+        workers[id].tea = key;
+        clearTimeout(workers[id].timer);
         workers[id].timer = setTimeout(function wd() {
-            if (Player.tea[key] >= 3) {
-                Player.tea[key] -= 3;
-                Player.cups[key] += 1;
+            if (Player.tea[workers[id].tea] >= 3) {
+                Player.tea[workers[id].tea] -= 3;
+                Player.cups[workers[id].tea] += 1;
                 Player.teamade += 1;
                 workers[id].timer = setTimeout(wd, workers[id].delay);
             };
         }, workers[id].delay);
     };
 }
+//#fff
 const workerUpgrade = (id) => {
     if (Player.money - workers[id].moneyToNextLevel < 0) {
         showGameAlert('!', 'Not enough money!', ['alert'], '200px');
@@ -599,7 +692,18 @@ const workerUpgrade = (id) => {
         clearTimeout(workers[id].timer);
         workers[id].timer = 0;
         workerGetCup(id);
-        toWorkers();
+        /*toWorkers();*/
+        //id="worker-${i}", id="worker-${i}-level", id="worker-${i}-delay", class="shop-button up-worker-${i}"
+        $(`#worker-${id}-level`).text(`-> Level: ${workers[id].level}`);
+        $(`#worker-${id}-delay`).text(`-> Time to make 1 cup: ${(workers[id].delay/1000)} sec.`);
+        if (workers[id].delay == 250) {
+            $(`.up-worker-${id}`).remove();
+            $(`#worker-${id}-delay`).after(`<button class="shop-button-disabled up-worker-${i}-disabled">Max level!</button>`);
+            $(`.up-worker-${id}-disabled`).text(`Max level!`);
+        }
+        else {
+            $(`.up-worker-${id}`).text(`Upgrade for ${workers[id].moneyToNextLevel}$`);
+        };
     };
 }
 const changeWorkersPrice = (id) => {
@@ -649,6 +753,10 @@ const changeLog = () => {
         - Load bug fixed<br/>
         - Quests bug fixed<br/>
         - Employees take 1% to 50% of the money from the sale of cups of tea (depending on the amount of tea sold)<br/>
+        <u><b>v2.3:</b></u><br/>
+        - Reduced amount of tea in the shop<br/>
+        - Fixed bug with workers<br/>
+        - Added new quests: "Junior workers", "Middle workers", "Senior workers", "The only thing I'd like to know is, what is color?", "Tutorial master"<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
@@ -792,7 +900,19 @@ const checkQuests = () => {
         if (quests[i].status == 'not completed') {
             conditions = quests[i].conditions;
             for (var reqs in conditions) {
-                if (conditions[reqs].constructor === Object) {
+                if (reqs == 'workers') {
+                    for (var j = 1; j < workers.length; j++) {
+                        if (workers[j].level >= conditions[reqs].level) {
+                            quests[i].status = 'completed';
+                            if ($('.quests-body').length != 0) {
+                                $('.quests-body').empty();
+                                showQuests();
+                            };
+                            showPush(quests[i].text);
+                        };
+                    };
+                }
+                else if (conditions[reqs].constructor === Object) {
                     for (var elem in conditions[reqs]) {
                         if (typeof(conditions[reqs][elem]) != 'number') {
                             if (Player[reqs][elem] == conditions[reqs][elem]) {
@@ -862,17 +982,25 @@ const getInfo = (id) => {
                 };
             }
             else {
-                if (reqs == 'admin') {
-                    text += '- You must be an admin<br/>';
-                }
-                else if (reqs == 'teamade') {
-                    text += `- You must make ${conditions[reqs]} cups of tea<br/>`;
-                }
-                else if (reqs == 'teasold') {
-                    text += `- You must sell ${conditions[reqs]} cups of tea<br/>`;
-                }
-                else {
-                    text += `- ${conditions[reqs]} ${reqs}<br/>`;
+                switch (reqs) {
+                    case 'admin':
+                        text += '- You must be an admin<br/>';
+                        break;
+                    case 'teamade':
+                        text += `- You must make ${conditions[reqs]} cups of tea<br/>`;
+                        break;
+                    case 'teasold':
+                        text += `- You must sell ${conditions[reqs]} cups of tea<br/>`;
+                        break;
+                    case 'colorChanged':
+                        text += `- You must change color in settings<br/>`;
+                        break;
+                    case 'tutorialCompleted':
+                        text += `- You must complete the tutorial<br/>`
+                        break;
+                    default:
+                        text += `- ${conditions[reqs]} ${reqs}<br/>`;
+                        break;
                 };
             };
         };
@@ -941,11 +1069,9 @@ const showQuests = () => {
     $('.quests-body').empty();
     for (var id in quests) {
         if (quests[id].status == 'not completed') {
-            //$('#quests-body').append(`<p id="quest-id-${quest}">${quests[quest].text}</p>`);
             if (quests[id].prevQuest != null) {
                 branch = quests[id];
                 idi = id;
-                //TODO: добавить в сохранение
                 while ((branch.prevQuest != null) && (quests[branch.prevQuest].status != 'rewarded')) {
                     idi = branch.prevQuest;
                     branch = quests[idi];
@@ -1257,8 +1383,6 @@ const save = () => {
         tmGtr: JSON.stringify(timerGetter),
         tmr: JSON.stringify(timer),
         tpTea: JSON.stringify(typesTea),
-        qst: JSON.stringify(quests),
-        wks: JSON.stringify(workers)
     }
     for (var key in data) {
         localStorage.setItem(key, data[key]);
@@ -1284,8 +1408,8 @@ const load = () => {
     timerGetter = JSON.parse(localStorage.getItem('tmGtr'));
     timer = JSON.parse(localStorage.getItem('tmr'));
     typesTea = JSON.parse(localStorage.getItem('tpTea'));
-    quests = JSON.parse(localStorage.getItem('qst'));
-    workers = JSON.parse(localStorage.getItem('wks'));
+    quests = Player.quests;
+    workers = Player.workers;
     for (var i = 1; i < workers.length; i++) {
         workers[i].timer = 0;
     }
@@ -1365,6 +1489,7 @@ const chn = () => {
     Graphics.hoveredButtonsColor = `hsla(${hue},${satur}%,${light}%,${alpha*0.4}%)`
     Graphics.secondColor = `hsla(${hue},${satur}%,${light}%,${alpha}%)`
     Graphics.firstColor = `hsla(${bg_hue},${bg_satur}%,${bg_light}%,${bg_alpha}%)`
+    Player.colorChanged = true;
     Graphics.apply();
     Graphics.applyToSliders();
 }
@@ -1409,13 +1534,13 @@ const showWorkers = () => {
     $('.sidebar1').append('<div class="workers-body" style="overflow: scroll;"></div>');
     for (var i = 1; i < workers.length; i++) {
         $('.workers-body').append(`<p id="worker-${i}" style="color: ${Graphics.secondColor}">Worker ${i}:</p>`);
-        $('.workers-body').append(`<p id="worker-${i}-level" style="color: ${Graphics.secondColor}">---> Level: ${workers[i].level}</p>`);
-        $('.workers-body').append(`<p id="worker-${i}-delay" style="color: ${Graphics.secondColor}">---> Time to make 1 cup: ${(workers[i].delay/1000)} sec.</p>`);
+        $('.workers-body').append(`<p id="worker-${i}-level" style="color: ${Graphics.secondColor}">-> Level: ${workers[i].level}</p>`);
+        $('.workers-body').append(`<p id="worker-${i}-delay" style="color: ${Graphics.secondColor}">-> Time to make 1 cup: ${(workers[i].delay/1000)} sec.</p>`);
         if (workers[i].delay == 250) {
-            $('.workers-body').append(`<button class="shop-button-disabled">Max level!</button>`);
+            $('.workers-body').append(`<button class="shop-button-disabled up-worker-${i}-disabled">Max level!</button>`);
         }
         else {
-            $('.workers-body').append(`<button class="shop-button" onclick="workerUpgrade(${i})">Upgrade for ${workers[i].moneyToNextLevel}$</button>`);
+            $('.workers-body').append(`<button class="shop-button up-worker-${i}" onclick="workerUpgrade(${i})">Upgrade for ${workers[i].moneyToNextLevel}$</button>`);
         };
     };
     if (workers.length == 1) {
