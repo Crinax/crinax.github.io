@@ -214,7 +214,7 @@ var Player = {
             },
             reward: {
                 money: 10000000,
-                workers: new Worker()
+                workers: new Worker(1, 100000, 50000, 3000, 0, 'green')
             },
             status: 'not completed',
             nextQuest: 12
@@ -227,7 +227,7 @@ var Player = {
             },
             reward: {
                 money: 100000000,
-                workers: new Worker()
+                workers: new Worker(1, 100000, 50000, 3000, 0, 'yellow')
             },
             status: 'not completed',
             nextQuest: null
@@ -655,19 +655,19 @@ const ddchk = () => {
     }, 1);
 }
 const workerGetCup = (id) => {
-    var trigWorker = false;
-    for (var key in Player.tea) {
-        if (Player.tea[key] >= 3) {
-            trigWorker = true;
-            break;
-        };
-    };
+    // var trigWorker = false;
+    // for (var key in Player.tea) {
+    //     if (Player.tea[key] >= 3) {
+    //         trigWorker = true;
+    //         break;
+    //     };
+    // };
     if (Player.tea[workers[id].tea] < 3) {
         clearTimeout(workers[id].timer);
         workers[id].timer = 0;
     }
-    if (trigWorker && workers[id].timer == 0) {
-        workers[id].tea = key;
+    if (/*trigWorker && */workers[id].timer == 0) {
+        // workers[id].tea = key;
         clearTimeout(workers[id].timer);
         workers[id].timer = setTimeout(function wd() {
             if (Player.tea[workers[id].tea] >= 3) {
@@ -758,6 +758,8 @@ const changeLog = () => {
         - Fixed bug with workers<br/>
         - Added new quests: "Junior workers", "Middle workers", "Senior workers", "The only thing I'd like to know is, what is color?", "Tutorial master"<br/>
         - Slightly adapted for mobile devices<br/>
+        <u><b>v2.4:</b></u><br/>
+        - Now the workers don't define the tea themselves<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
