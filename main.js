@@ -757,6 +757,7 @@ const changeLog = () => {
         - Reduced amount of tea in the shop<br/>
         - Fixed bug with workers<br/>
         - Added new quests: "Junior workers", "Middle workers", "Senior workers", "The only thing I'd like to know is, what is color?", "Tutorial master"<br/>
+        - Slightly adapted for mobile devices<br/>
         `, ['alert'], '125px')
 }
 var timerChange = {
