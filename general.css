@@ -165,7 +165,7 @@ button {
     transition: background .25s ease-in-out,
                 transform .75s ease-in-out;
 }
-#close {
+#about {
     box-shadow: -0.75px 5px 5px 0px #000;
 }
 button:hover {
@@ -544,7 +544,7 @@ progress::-moz-progress-bar {
     transform: scaleX(1.009);
 }
 .quests-body {
-    margin: 23pt 0 0 0;
+    margin: 28pt 0 0 0;
     width: 100%;
     height: 441px;
     position: absolute;
@@ -556,7 +556,7 @@ progress::-moz-progress-bar {
     box-shadow: 2px 2px 0px 0px #000;
 }
 .workers-body {
-    margin: 23pt 0 0 0;
+    margin: 28pt 0 0 0;
     width: 100%;
     height: 441px;
     position: absolute;
