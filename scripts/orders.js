@@ -3,7 +3,7 @@ const ordersMenu = () => {
 	setTimeout(() => {
 		hideBut();
 		showOreders();
-	}, 1500);
+	}, 200);
 }
 const showOreders = () => {
 	$('.sidebar1').empty();

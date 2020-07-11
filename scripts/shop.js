@@ -53,7 +53,7 @@ const shop = () => {
     showEffect('.sidebar1', 'top')
     setTimeout(() => {
         toShop();
-    }, 1500)
+    }, 200)
 }
 const buy = (item) => {
     if (Player.money - Shop.price[`${item}`]*$(`#${item}Tea`).val() < 0) {

@@ -31,7 +31,7 @@ const makeTea = () => {
             }, 2000)
         }
         Graphics.apply();
-    }, 1500)
+    }, 200)
 }
 const makeIt = (item) => {
     if (Player.tea[item] - $(`#select-cups-of-${item}-tea`).val()*3 < 0) {

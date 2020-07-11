@@ -7,5 +7,5 @@ const about = () => {
         $('.about-body').append(`<h2>${Strings.about}</h2>`)
         $('.about-body').append(`<p>${Strings.aboutText}</p>`);
         Graphics.apply();
-    }, 1500)
+    }, 200)
 }

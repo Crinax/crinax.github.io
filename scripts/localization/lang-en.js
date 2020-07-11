@@ -241,7 +241,9 @@ var Strings = {
         - Smooth display of remaining time<br/>
         - A few minor changes<br/>
         - Bug fixed<br/>
-        - Added localization<br/>`,
+        - Added localization<br/>
+        <u><b>v3.0.1:</b></u><br/>
+        - Increased animation speed<br/>`,
     aboutText: 'In this game you will need to make a <u><strong title=\'\"Tea is an aromatic beverage commonly prepared by pouring hot or boiling water over cured leaves of the Camellia sinensis, an evergreen shrub (bush) native to East Asia.\" &copy;Wiki\'>tea</strong></u>, sell it, hire workers and build a business',
     banHeader: 'You were banned!',
     banText: 'We apologize, but you were banned for using cheats. Please never use these accessories. You can write to me and I will give you codes, in fact, after all, are they not cheats?🌚',

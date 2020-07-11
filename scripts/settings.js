@@ -34,7 +34,7 @@ const settings = () => {
             $('#save').after(`<button id="load" onclick="load();">${Strings.load}</button>`)
             $('#save, #load').animate({
                 'opacity': '1'
-            }, 1000)
+            }, 200)
         }
         else {
             $('#save, #load').animate({
@@ -42,11 +42,11 @@ const settings = () => {
             }, 100)
             $('#save, #load').animate({
                 'opacity': '1'
-            }, 1000)
+            }, 200)
         }
         Graphics.apply();
         Graphics.applyToSliders();
-    },1000);
+    }, 200);
 }
 const check = (state = 1) => {
     if (state == 0) {

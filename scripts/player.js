@@ -30,7 +30,7 @@ const playerInfo = () => {
     setTimeout(() => {
         hideBut();
         toPlayerInfo();
-    }, 1500)
+    }, 200)
 }
 const changeName = () => {
     showGameAlert(Strings.changeNameHeader,Strings.changeNameText,['prompt', '1'],'120px');

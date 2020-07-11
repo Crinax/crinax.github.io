@@ -18,7 +18,7 @@ const shows = (elem,dir) => {
             return true;
         }
         i++;
-    }, 10)
+    }, 1)
 }
 const showEffect = (elem,dir) => {
     var i = 0;
@@ -40,7 +40,7 @@ const showEffect = (elem,dir) => {
             shows(elem, dir);
         }
         i++;
-    }, 10)
+    }, 1)
 }
 const hideBut = () => {
 if ($('#save').length != 0) {
