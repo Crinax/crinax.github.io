@@ -26,7 +26,7 @@ const reload = () => {
             <footer>
                 <h3 id="copyright">${Strings.copyright}</h3>
                 <h3 id="font">${Strings.font}: <a href="https://fonts.google.com/specimen/Comfortaa" target="_blank">Comfortaa</a></h3>
-                <h3 id="version" onclick="changeLog()" title="${Strings.versionTitle}">${Strings.version}: 3.0</h3>
+                <h3 id="version" onclick="changeLog()" title="${Strings.versionTitle}">${Strings.version}: 3.0.1</h3>
                 <div id="sq1"></div>
                 <div id="sq2"></div>
                 <div id="sq3"></div>
