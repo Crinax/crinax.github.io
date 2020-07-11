@@ -370,7 +370,7 @@ input[type=range]:focus {
     width: 15px;
     position: relative;
     margin-top: -18pt;
-    margin-left: 121px;
+    margin-left: 190px;
     margin-bottom: 10px;
     border-radius: 30px;
     background: #f550;
@@ -563,4 +563,11 @@ progress::-moz-progress-bar {
     padding: 10px 0px 0px 5px;
     background: #2220;
     overflow: scroll;
+}
+.orders-body {
+    padding: 10px 0px 0px 5px;
+    background: #2220;
+    overflow: scroll;
+    height: 479px;
+    width: 100%;
 }

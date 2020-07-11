@@ -1,10 +1,9 @@
 <!-- Use a PC for more convenience -->
 <!--
-    Like this :P
     TRY TO FIND THE ADMIN PANEL! ( ͡° ͜ʖ ͡°)
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0' name='viewport' />
@@ -13,42 +12,75 @@
     <title>G-Game tap Tea!</title>
     <link rel="stylesheet" href="general.css">
     <link rel="icon" href="img/food.svg" /> 
-    <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript">
-
-    </script>
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="scripts/localization/lang-en.js" id="lang"></script>
 </head>
 <body onload="refTutorial()">
-    <script src="main.js" type="text/javascript">
-
+    <script src="scripts/main.js"></script>
+    <script src="scripts/maths.js"></script>
+    <script src="scripts/variables.js"></script>
+    <script src="scripts/grafics_functions.js"></script>
+    <script src="scripts/make_tea.js"></script>
+    <script src="scripts/sell_tea.js"></script>
+    <script src="scripts/player.js"></script>
+    <script src="scripts/quests.js"></script>
+    <script src="scripts/shop.js"></script>
+    <script src="scripts/workers.js"></script>
+    <script src="scripts/orders.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/save&load.js"></script>
+    <script src="scripts/tutorial.js"></script>
+    <script src="scripts/about.js"></script>
+    <script src="scripts/version.js"></script>
+    <script src="scripts/croipse.js"></script>
+    <script src="scripts/admin.js"></script>
+    <script src="scripts/ban_system.js"></script>
+    <script type="text/javascript">
+        var lang = localStorage.getItem('lang') != null ? localStorage.getItem('lang') : prompt(`
+            Select a language:
+            EN - English
+            RU - Russian
+            `);
+        if (
+            (lang.toLowerCase() != 'en') && 
+            (lang.toLowerCase() != 'ru')) {
+            lang = 'en';
+        };
+        localStorage.setItem('lang', lang.toLowerCase());
+        $('body').append(`
+            <div class="wrapper">
+                <div id="sqh"></div>
+                <header>
+                    <h1>G-Game tap Tea!</h1>
+                </header>
+                <div class="game-body">
+                    <div class="sidebar1">
+                    </div>
+                    <div class="sidebar2">
+                        <button id="tee" title="${Strings.teeTitle}" onclick="makeTea();">${Strings.tee}</button>
+                        <button id="player" onclick="playerInfo();" title="${Strings.playerTitle}">${Strings.player}</button>
+                        <button id="shop" onclick="shop();" title="${Strings.shopTitle}">${Strings.shop}</button>
+                        <button id="orders" title="${Strings.ordersTitle}" onclick="ordersMenu();">${Strings.orders}</button>
+                        <button id="settings" onclick="settings();" title="${Strings.settingsTitle}">${Strings.settings}</button>
+                        <button id="about" title="${Strings.aboutTitle}" onclick="about();">${Strings.about}</button>
+                    </div>
+                </div>
+                <footer>
+                    <h3 id="copyright">${Strings.copyright}</h3>
+                    <h3 id="font">${Strings.font}: <a href="https://fonts.google.com/specimen/Comfortaa" target="_blank">Comfortaa</a></h3>
+                    <h3 id="version" onclick="changeLog()" title="${Strings.versionTitle}">${Strings.version}: 3.0</h3>
+                    <div id="sq1"></div>
+                    <div id="sq2"></div>
+                    <div id="sq3"></div>
+                </footer>
+            </div>
+        `);
+        if (localStorage.getItem('lang') != 'en') {
+            switchLang();
+        }
+        else {
+            switchLang(lang.toLowerCase());
+        };
     </script>
-    <div class="wrapper">
-        <div id="sqh"></div>
-        <header>
-            <h1>G-Game tap Tea!</h1>
-        </header>
-        <div class="game-body">
-            <div class="sidebar1">
-                
-            </div>
-            <div class="sidebar2">
-                <button id="tee" title="Here you can make tea" onclick="makeTea();">To make tea!</button>
-                <button id="player" onclick="playerInfo();" title="Here you can see your statistic and change nickname">Player</button>
-                <button id="shop" onclick="shop();" title="Here you can buy tea leaves">Shop</button>
-                <button id="orders" title="Here you can execute orders" onclick="orders();">Orders</button>
-                <button id="settings" onclick="settings();" title="Here you can set color of text and lines, background color and graphics quality of the game">Settings</button>
-                <button id="about" title="Here you can read about this game" onclick="about();">About</button>
-            </div>
-        </div>
-
-        <footer>
-            <h3 id="copyright">Game by Crinax&copy;</h3>
-            <h3 id="font">Font: <a href="https://fonts.google.com/specimen/Comfortaa" target="_blank">Comfortaa</a></h3>
-            <h3 id="version" onclick="changeLog()" title="Click to view change log">Version: 3.0</h3>
-            <div id="sq1"></div>
-            <div id="sq2"></div>
-            <div id="sq3"></div>
-        </footer>
-    </div>
 </body>
 </html>
