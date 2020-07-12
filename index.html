@@ -39,8 +39,11 @@
         var lang = localStorage.getItem('lang') != null ? localStorage.getItem('lang') : prompt(`
             Select a language:
             EN - English
-            RU - Russian
+            RU - Русский
             `);
+        if ((lang == null) || (lang == undefined)) {
+            lang = 'en';
+        };
         if (
             (lang.toLowerCase() != 'en') && 
             (lang.toLowerCase() != 'ru')) {

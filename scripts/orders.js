@@ -155,7 +155,7 @@ const addOrder = () => {
 		}
 		else {
 			$('.orders-body').append(`<p id="order-${ordersQuant}-name"><b><u>${Strings.ordersName.format(orders[ordersQuant].customer)}</u></b></p>`);
-			var text = 'Hi! I need ';
+			var text = Strings.orderText[1];
 			for (var j in orders[ordersQuant].conditions.cups) {
 				text += `${orders[ordersQuant].conditions.cups[j]} ${Strings.cupsOfTea[j].charAt(0).toLowerCase() + Strings.cupsOfTea[j].slice(1, Strings.cupsOfTea[j].length-1)}, `;
 			};
